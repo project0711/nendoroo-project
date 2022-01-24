@@ -123,10 +123,11 @@
           let card = `<div class="col">
             <div class="card h-100" >
               
-               <img width="200" height="200" style="object-fit: contain;" src="${doc.data().정보.이미지}" class="card-img-top" alt="중고 피규어">
+               <img width="200" height="200" style="object-fit: contain; " src="${doc.data().정보.이미지}" class="card-img-top" alt="중고 피규어">
                
               <div class="card-body pb-0" >
-                <h6 class="card-title">
+                <h6 class="card-title" style=" overflow:hidden; text-overflow:ellipsis; word-wrap:break-word;
+                 display: -webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical;">
                   ${doc.data().정보.제목}
                 </h6>
               

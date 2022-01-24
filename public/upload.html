@@ -63,13 +63,14 @@
             <p class="fw-bolder fs-3">중고 피규어 업로드</p>
             <p style="color: orangered;">피규어가 아닌 물품을 등록시, 삭제 조치 됩니다.</p>
 
+            <input required class="py-3 form-control mt-2" type="file" id="image" accept="image/*">
+
             <input required type="text" class="py-3 form-control mt-2" id="title" placeholder="제목">
 
             <textarea required class="py-5 form-control mt-2" id="content" placeholder="내용"></textarea>
 
             <input required type="number" min="0" class="py-3 form-control mt-2" id="price" placeholder="가격(원)">
 
-            <input required class="py-3 form-control mt-2" type="file" id="image" accept="image/*">
 
             <button class="btn btn-danger mt-3" id="send">업로드</button>
 

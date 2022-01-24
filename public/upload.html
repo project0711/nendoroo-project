@@ -73,6 +73,7 @@
         </div>
     </nav>
     <div style="background-color: #f9f9f9">
+
         <form class="container py-5">
 
             <p class="fw-bolder fs-3">중고 피규어 업로드</p>
@@ -119,7 +120,11 @@
         firebase.initializeApp(firebaseConfig);
     </script>
 
+    <script
+        src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
     <script>
+
         // 천자리수 콤마 함수
         function priceToString(price) {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -135,6 +140,8 @@
             // 새로고침되지 않게 막음. 매우 중요!
             e.preventDefault();
             //
+            // 로딩스피너
+            $.LoadingOverlay("show");
 
             var file = document.querySelector("#image").files[0];
             var storageRef = storage.ref();

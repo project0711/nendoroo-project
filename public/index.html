@@ -22,8 +22,7 @@
 <body class="mx-auto">
   <nav class="mx-auto w-75 navbar navbar-expand-xxl navbar-light light mb-2">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/public/index.html"><img src="img/Nendoroo (250 × 100px).svg" alt=""
-          srcset="" /></a>
+      <a class="navbar-brand" href="/index.html"><img src="img/Nendoroo (250 × 100px).svg" alt="" srcset="" /></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -35,36 +34,33 @@
             Search
           </button>
         </form>
-        <ul class="w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
+        <ul class=" w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
             <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link" href="#">넨도로이드</a>
           </li>
-          <li class="nav-item">
-            <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link"
-              href="/public/upload.html">판매하기</a>
+          <li id="uploadbtn" class="nav-item">
+            <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link" href="#">판매하기</a>
           </li>
-          <li class="nav-item">
+          <li id="mypagebtn" class="nav-item">
             <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link" href="#">마이페이지</a>
           </li>
-          <!-- <li class="nav-item">
-            <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link"
-              href="/public/login.html">로그인</a>
-          </li> -->
+          <!-- 평소에는 안보이고 있음 -->
+          <li id="logout" style="display: none;" class="nav-item">
+            <a id="logoutbtn" style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
+              class="nav-link">로그아웃</a>
+          </li>
 
 
-          <ul class="navbar-nav">
+          <ul id="logindrop" class="navbar-nav">
             <li class="nav-item dropdown">
               <a style="font-weight: bolder; color: black; font-size: larger;" class="nav-link dropdown-toggle" href="#"
                 id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 로그인
               </a>
               <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                <li class="my-4"><a class="dropdown-item p-3 m-3" href="#" style="display: inline;"><img class="mx-2"
-                      width="25" height="25" src="img/gl.png" alt="">구글 로그인</a></li>
-                <li class="my-4"><a class="dropdown-item p-3 m-3 " href="#" style="display: inline;"><img class="mx-2"
-                      width="25" height="25" src="img/fb.png" alt="">페이스북 로그인</a></li>
-                <li class="my-4"><a class="dropdown-item p-3 m-3 " href="#" style="display: inline;"><img class="mx-2"
-                      width="25" height="25" src="img/tw.png" alt="">트위터 로그인</a></li>
+                <li class="my-3"><a id="google" class="dropdown-item p-3" href="#" style="display: inline;"><img
+                      style="margin-right: 1rem" width="25" height="25" src="img/google.svg" alt="">구글 로그인</a></li>
+
               </ul>
             </li>
           </ul>
@@ -136,6 +132,89 @@
     // }
 
     const db = firebase.firestore();
+
+
+    //페이지 들어오자마자 검사한다. 로그인되어있다면, 로그아웃버튼 유지하는 로직
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+
+        // 로그인이 되었으니까,
+        // 로그인버튼 안보이게하고
+        $('#logindrop').hide();
+        // 로그아웃버튼 보여주기
+        $('#logout').show();
+        // var uid = user.uid;
+
+      } else {
+
+
+      }
+    });
+    //
+    //
+
+    // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
+    $("#uploadbtn").on("click", () => {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          //로그인되어있으면 업로드페이지로 이동
+          window.location.href = "/upload.html";
+
+        } else {
+
+          alert("로그인이 필요합니다");
+        }
+      });
+    })
+    //
+    $("#mypagebtn").on("click", () => {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          //로그인되어있으면 업로드페이지로 이동
+          window.location.href = "/mypage.html";
+
+        } else {
+
+          alert("로그인이 필요합니다");
+        }
+      });
+    })
+
+    let provider = new firebase.auth.GoogleAuthProvider();
+
+    // 구글로그인 클릭시
+    $("#google").on("click", () => {
+      console.log("버튼이 눌렸습니다");
+      firebase.auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+
+
+
+          window.location.href = "/index.html";
+
+
+
+        }).catch((error) => {
+
+        });
+    });
+
+    $("#logout").on("click", () => {
+      console.log("로그아웃버튼 클릭됨");
+
+      firebase.auth().signOut().then(() => {
+        console.log("로그아웃 성공");
+        window.location.href = "/index.html";
+      }).catch((error) => {
+
+      });
+    });
+
+
+
+
     db.collection("product")
       .get()
       .then((list) => {

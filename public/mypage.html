@@ -35,23 +35,22 @@
                         Search
                     </button>
                 </form>
-                <ul class="w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
+                <ul class=" w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link"
                             href="#">넨도로이드</a>
                     </li>
-                    <li class="nav-item">
+                    <li id="uploadbtn" class="nav-item">
                         <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link"
                             href="#">판매하기</a>
                     </li>
-                    <li class="nav-item">
+                    <li id="mypagebtn" class="nav-item">
                         <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link"
                             href="#">마이페이지</a>
                     </li>
-
                     <!-- 평소에는 안보이고 있음 -->
                     <li id="logout" style="display: none;" class="nav-item">
-                        <a style=" cursor: pointer; font-size: larger; font-weight: bolder; color: black"
+                        <a id="logoutbtn" style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
                             class="nav-link">로그아웃</a>
                     </li>
 
@@ -69,34 +68,23 @@
                                             src="img/google.svg" alt="">구글 로그인</a></li>
 
                             </ul>
-
+                        </li>
                     </ul>
-                    </li>
-                </ul>
+
 
                 </ul>
             </div>
         </div>
     </nav>
     <div style="background-color: #f9f9f9">
+        <div class="container p-0">
+            마이페이지입니다 여기에는, 지금 로그인되어있는 유저가, 등록했었던 피규어들이 카드형식으로 되어있음.
+            업로드한 물품을 삭제 할수있음. 수정 기능은 혼선을 막기위해 넣지 않음.
 
-        <form class="container py-5">
+            제품카드를 누르면 해당 피규어의 디테일 페이지 ( 즉, 구매자들도 볼수있는 그 페이지 ) 로 이동함.
 
-            <p class="fw-bolder fs-3">중고 피규어 업로드</p>
-            <p style="color: orangered;">피규어가 아닌 물품을 등록 시, 삭제 조치 됩니다.</p>
-
-            <input required class="py-3 form-control mt-2" type="file" id="image" accept="image/*">
-
-            <input required type="text" class="py-3 form-control mt-2" id="title" placeholder="제목">
-
-            <textarea required class="py-5 form-control mt-2" id="content" placeholder="내용"></textarea>
-
-            <input required type="number" min="0" class="py-3 form-control mt-2" id="price" placeholder="가격(원)">
-
-
-            <button class="btn btn-danger mt-3" id="send">업로드</button>
-
-        </form>
+        </div>
+        <!-- 큰 틀 -->
     </div>
 
     <!-- 제이쿼리 -->
@@ -126,23 +114,16 @@
         firebase.initializeApp(firebaseConfig);
     </script>
 
-    <script
-        src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
-
     <script>
-
         // 천자리수 콤마 함수
-        function priceToString(price) {
-            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
+        // function priceToString(price) {
+        //   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        // }
 
         const db = firebase.firestore();
 
-        const storage = firebase.storage();
 
-
-
-        // 만약 로그인되어있으면, 로그아웃버튼 유지하는 로직
+        //페이지 들어오자마자 검사한다. 로그인되어있다면, 로그아웃버튼 유지하는 로직
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
@@ -160,6 +141,8 @@
             }
         });
         //
+        //
+
         // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
         $("#uploadbtn").on("click", () => {
             firebase.auth().onAuthStateChanged((user) => {
@@ -187,7 +170,6 @@
             });
         })
 
-
         let provider = new firebase.auth.GoogleAuthProvider();
 
         // 구글로그인 클릭시
@@ -197,7 +179,10 @@
                 .signInWithPopup(provider)
                 .then((result) => {
 
+
+
                     window.location.href = "/index.html";
+
 
 
                 }).catch((error) => {
@@ -216,61 +201,6 @@
             });
         });
 
-
-
-
-
-        $("#send").on("click", (e) => {
-
-            // 새로고침되지 않게 막음. 매우 중요!
-            e.preventDefault();
-            //
-            // 로딩스피너
-            $.LoadingOverlay("show");
-
-            var file = document.querySelector("#image").files[0];
-            var storageRef = storage.ref();
-            var 저장할경로 = storageRef.child('image/' + new Date().getTime() + file.name);
-            var 업로드작업 = 저장할경로.put(file);
-
-            업로드작업.on('state_changed',
-                // 변화시 동작하는 함수 
-                null,
-                //에러시 동작하는 함수
-                (error) => {
-                    console.error('실패사유는', error);
-                },
-                // 성공시 동작하는 함수
-                () => {
-                    업로드작업.snapshot.ref.getDownloadURL().then((url) => {
-
-                        let 정보 = {
-
-                            제목: $("#title").val(),
-                            내용: $("#content").val(),
-                            가격: priceToString($("#price").val()),
-                            날짜: new Date().toLocaleString(),
-                            이미지: url,
-
-                        };
-                        db.collection("product").add({ 정보 }).then((result) => {
-
-                            window.location.href = "/index.html";
-
-                        });
-                    });
-                }
-            );
-
-
-
-
-
-
-
-
-
-        })
 
 
 

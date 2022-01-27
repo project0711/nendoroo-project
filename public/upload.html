@@ -208,6 +208,8 @@
 
         $("#logout").on("click", () => {
 
+
+
             firebase.auth().signOut().then(() => {
                 alert("로그아웃 되었습니다");
 
@@ -223,45 +225,61 @@
 
         $("#send").on("click", (e) => {
 
-            // 새로고침되지 않게 막음. 매우 중요!
-            e.preventDefault();
-            //
-            // 로딩스피너
-            $.LoadingOverlay("show");
 
-            var file = document.querySelector("#image").files[0];
-            var storageRef = storage.ref();
-            var 저장할경로 = storageRef.child('image/' + new Date().getTime() + file.name);
-            var 업로드작업 = 저장할경로.put(file);
+            let image = $("#image").val();
+            let title = $("#title").val();
+            let content = $("#content").val();
+            let price = $("#price").val();
 
-            업로드작업.on('state_changed',
-                // 변화시 동작하는 함수 
-                null,
-                //에러시 동작하는 함수
-                (error) => {
-                    console.error('실패사유는', error);
-                },
-                // 성공시 동작하는 함수
-                () => {
-                    업로드작업.snapshot.ref.getDownloadURL().then((url) => {
+            if (image != "" && title != "" && content != "" && price != "") {
 
-                        let 정보 = {
+                // 새로고침되지 않게 막음.
+                e.preventDefault();
+                //
+                // 로딩스피너
+                $.LoadingOverlay("show");
 
-                            제목: $("#title").val(),
-                            내용: $("#content").val(),
-                            가격: priceToString($("#price").val()),
-                            날짜: new Date().toLocaleString(),
-                            이미지: url,
 
-                        };
-                        db.collection("product").add({ 정보 }).then((result) => {
+                var file = document.querySelector("#image").files[0];
+                var storageRef = storage.ref();
+                var 저장할경로 = storageRef.child('image/' + new Date().getTime() + file.name);
+                var 업로드작업 = 저장할경로.put(file);
 
-                            window.location.href = "/index.html";
+                업로드작업.on('state_changed',
+                    // 변화시 동작하는 함수 
+                    null,
+                    //에러시 동작하는 함수
+                    (error) => {
+                        console.error('실패사유는', error);
+                    },
+                    // 성공시 동작하는 함수
+                    () => {
+                        업로드작업.snapshot.ref.getDownloadURL().then((url) => {
 
+                            let 정보 = {
+
+                                제목: $("#title").val(),
+                                내용: $("#content").val(),
+                                가격: priceToString($("#price").val()),
+                                날짜: new Date().toLocaleString(),
+                                이미지: url,
+
+                            };
+                            db.collection("product").add({ 정보 }).then((result) => {
+
+                                // 마이페이지로 이동
+                                window.location.href = "/mypage.html";
+
+                            });
                         });
-                    });
-                }
-            );
+                    }
+                );
+            } else {
+                alert("모든 항목을 채우셔야 합니다")
+
+            }
+
+
 
 
 

@@ -78,17 +78,23 @@
     </nav>
     <div style="background-color: #f9f9f9">
         <div class="container p-0">
-            일단 가장 중요한건, 먼저 user라는 컬렉션을 만들고, 로그인한 사람의 정보가 저장되게 해야합니다.
-            이때 처음가입한 사람이라면( 즉, user컬렉션안에 이사람의 고유정보(uid)가 없다면) 팝업창을 띄워서
-            사용할 닉네임을 입력하게 합니다. 그러면, user컬렉션안에 그사람의 정보는 이메일,uid,닉네임 이렇게 3묶음으로 저장됩니다.
-            마이페이지에서 자기 프로필에 보면, 닉네임이 나옵니다. 그리고 중고거래할때 그 닉네임을 씁니다.
 
 
-            마이페이지입니다. 여기에는 판매 물품 / 구매 물품 / 찜한 물품 이렇게 총 3가지 카테고리가 있습니다
-            그리고, 판매완료된 제품이나, 구매완료된 제품은, 판매완료표시,구매완료표시로 표시됩니다.
-            판매하는 물품의 경우, 업로드한 물품을 삭제 할수있습니다.다만 수정 기능은 혼선을 막기위해 넣지 않습니다.
+            <p style="color: palevioletred;">닉네임을 변경하실 수 있습니다. ( 거래 시 서로에게 보여질 이름입니다. )</p>
+            <span>닉네임 :</span>
+            <span class="my-2" id="nickname"> </span>
+            <input id="afterName" style="display:none;" placeholder="변경할 닉네임 입력"></input>
+            <button class="my-2" id="nameUpdate" style="display: block;">닉네임 수정</button>
+            <button class="my-2" id="updateEnd" style="display: none;">수정완료</button>
 
-            제품카드를 누르면 해당 피규어의 디테일 페이지 ( 즉, 구매자들도 볼수있는 그 페이지 ) 로 이동함.
+
+            <div class="my-5">
+                마이페이지입니다. 여기에는 판매 물품 / 구매 물품 / 찜한 물품 이렇게 총 3가지 카테고리가 있습니다
+                그리고, 판매완료된 제품이나, 구매완료된 제품은, 판매완료표시,구매완료표시로 표시됩니다.
+                판매하는 물품의 경우, 업로드한 물품을 삭제 할수있습니다.다만 수정 기능은 혼선을 막기위해 넣지 않습니다.
+
+                제품카드를 누르면 해당 피규어의 디테일 페이지 ( 즉, 구매자들도 볼수있는 그 페이지 ) 로 이동함.
+            </div>
 
         </div>
         <!-- 큰 틀 -->
@@ -135,6 +141,11 @@
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
 
+
+                // console.log(user.displayName);
+                $("#nickname").text(user.displayName);
+
+
                 // 로그인이 되었으니까,
                 // 로그인버튼 안보이게하고
                 $('#logindrop').hide();
@@ -142,13 +153,49 @@
                 $('#logout').show();
                 // var uid = user.uid;
 
+
             } else {
 
 
             }
         });
         //
-        //
+
+        //닉네임 수정 버튼
+        $("#nameUpdate").on("click", () => {
+
+            $("#nameUpdate").css("display", "none");
+            $("#updateEnd").css("display", "block");
+            $("#afterName").css("display", "block");
+
+
+        })
+
+        // 닉네임 수정완료 버튼
+        $("#updateEnd").on("click", () => {
+
+            // db.collection("nickname")에서 입력한 닉네임이 있는지 닉네임 중복 여부 검사 
+            //로직 여기다가 짜기
+
+            //displayName업데이트 방법
+            // result.user.updateProfile({ displayName: ???? });
+
+            firebase.auth().onAuthStateChanged((user) => {
+                user.updateProfile({ displayName: $("#afterName").val() });
+            });
+            // $("#updateEnd").css("display", "none");
+            // $("#afterName").css("display", "none");
+            // $("#nameUpdate").css("display", "block");
+
+            setTimeout(() => { window.location.href = "/mypage.html" }, 500);
+
+        })
+
+
+
+
+
+
 
         // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
         $("#uploadbtn").on("click", () => {

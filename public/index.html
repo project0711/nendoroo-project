@@ -191,11 +191,30 @@
 
       firebase.auth()
         .signInWithPopup(provider)
-        .then((result) => {
+        .then(async (result) => {
+
+          // console.log(result.user);
+
+          // console.log(result);
+
+          // result.additionalUserInfo.isNewUser == true 이면, 신규가입자 
+          // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
+
+          if (result.additionalUserInfo.isNewUser) {
+            // 신규가입자니까 displayName에 임시닉네임 부여했음. 이 닉네임이 마이페이지에 뜨게됨
+            await result.user.updateProfile({ displayName: "임시 닉네임 #" + new Date().getTime() });
+            window.location.href = "/mypage.html";
+
+
+          } else {
+            //기존 가입자면 패스
+            window.location.href = "/index.html";
+
+          }
 
 
 
-          window.location.href = "/index.html";
+
 
 
 
@@ -204,10 +223,11 @@
         });
     });
 
+
+
+
     // 로그아웃 
     $("#logout").on("click", () => {
-
-
 
       firebase.auth().signOut().then(() => {
         alert("로그아웃 되었습니다");

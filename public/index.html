@@ -221,6 +221,7 @@
 
 
     db.collection("product")
+      .orderBy("정보.날짜", "desc")
       .get()
       .then((list) => {
         list.forEach((doc) => {

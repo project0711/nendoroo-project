@@ -36,7 +36,8 @@
         </form>
         <ul class=" w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
-            <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link" href="#">넨도로이드</a>
+            <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link"
+              href="/nendoroid.html">넨도로이드</a>
           </li>
           <li id="uploadbtn" class="nav-item">
             <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link" href="#">판매하기</a>
@@ -164,6 +165,7 @@
         } else {
 
           alert("로그인이 필요합니다");
+          window.location.href = "/index.html";
         }
       });
     })
@@ -177,6 +179,7 @@
         } else {
 
           alert("로그인이 필요합니다");
+          window.location.href = "/index.html";
         }
       });
     })
@@ -185,7 +188,7 @@
 
     // 구글로그인 클릭시
     $("#google").on("click", () => {
-      console.log("버튼이 눌렸습니다");
+
       firebase.auth()
         .signInWithPopup(provider)
         .then((result) => {
@@ -201,11 +204,12 @@
         });
     });
 
+    // 로그아웃 
     $("#logout").on("click", () => {
-      console.log("로그아웃버튼 클릭됨");
+
 
       firebase.auth().signOut().then(() => {
-        console.log("로그아웃 성공");
+        alert("로그아웃 되었습니다");
         window.location.href = "/index.html";
       }).catch((error) => {
 
@@ -219,7 +223,7 @@
       .get()
       .then((list) => {
         list.forEach((doc) => {
-          console.log(doc.data());
+          // console.log(doc.data());
           let card = `<div class="col">
             <div class="card h-100" >
               

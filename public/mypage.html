@@ -78,15 +78,8 @@
     </nav>
     <div style="background-color: #f9f9f9">
         <div class="container p-0">
-
-
-            <p style="color: palevioletred;">닉네임을 변경하실 수 있습니다. ( 거래 시 서로에게 보여질 이름입니다. )</p>
-            <span>닉네임 :</span>
-            <span class="my-2" id="nickname"> </span>
-            <input id="afterName" style="display:none;" placeholder="변경할 닉네임 입력"></input>
-            <button class="my-2" id="nameUpdate" style="display: block;">닉네임 수정</button>
-            <button class="my-2" id="updateEnd" style="display: none;">수정완료</button>
-
+            <!-- displayName 삽입 -->
+            <span class="my-2" id="nickname"> </span> <span>님의 마이페이지</span>
 
             <div class="my-5">
                 마이페이지입니다. 여기에는 판매 물품 / 구매 물품 / 찜한 물품 이렇게 총 3가지 카테고리가 있습니다
@@ -159,37 +152,7 @@
 
             }
         });
-        //
 
-        //닉네임 수정 버튼
-        $("#nameUpdate").on("click", () => {
-
-            $("#nameUpdate").css("display", "none");
-            $("#updateEnd").css("display", "block");
-            $("#afterName").css("display", "block");
-
-
-        })
-
-        // 닉네임 수정완료 버튼
-        $("#updateEnd").on("click", () => {
-
-            // db.collection("nickname")에서 입력한 닉네임이 있는지 닉네임 중복 여부 검사 
-            //로직 여기다가 짜기
-
-            //displayName업데이트 방법
-            // result.user.updateProfile({ displayName: ???? });
-
-            firebase.auth().onAuthStateChanged((user) => {
-                user.updateProfile({ displayName: $("#afterName").val() });
-            });
-            // $("#updateEnd").css("display", "none");
-            // $("#afterName").css("display", "none");
-            // $("#nameUpdate").css("display", "block");
-
-            setTimeout(() => { window.location.href = "/mypage.html" }, 500);
-
-        })
 
 
 
@@ -229,21 +192,21 @@
         let provider = new firebase.auth.GoogleAuthProvider();
 
         // 구글로그인 클릭시
-        $("#google").on("click", () => {
-            firebase.auth()
-                .signInWithPopup(provider)
-                .then((result) => {
+        // $("#google").on("click", () => {
+        //     firebase.auth()
+        //         .signInWithPopup(provider)
+        //         .then((result) => {
 
 
 
-                    window.location.href = "/index.html";
+        //             window.location.href = "/index.html";
 
 
 
-                }).catch((error) => {
+        //         }).catch((error) => {
 
-                });
-        });
+        //         });
+        // });
 
         $("#logout").on("click", () => {
 

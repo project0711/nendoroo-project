@@ -20,6 +20,33 @@
 </head>
 
 <body class="mx-auto">
+  <!-- 모달 -->
+  <button id="modalpopbtn" style="display: none;" type="button" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop">
+    모달버튼
+  </button>
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header d-flex flex-column">
+          <h5 class="modal-title" id="staticBackdropLabel">신규가입을 환영합니다!</h5>
+          <h4>사용하실 닉네임을 입력해주세요.</h4>
+          <p style="color: red;">한번 설정하시면 변경하실 수 없습니다.<br>변경하시려면, 탈퇴 후 재가입 하셔야 합니다.</p>
+
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+        </div>
+        <div class="modal-body">
+          <input id="nameinput" type="text" class="form-control" placeholder="닉네임 입력" aria-label="Username">
+        </div>
+        <div class="modal-footer">
+          <button id="closebtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button id="okbtn" type="button" class="btn btn-primary">완료</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--  -->
   <nav class="mx-auto w-75 navbar navbar-expand-xxl navbar-light light mb-2">
     <div class="container-fluid">
       <a class="navbar-brand" href="/index.html"><img src="img/Nendoroo (250 × 100px).svg" alt="" srcset="" /></a>
@@ -191,7 +218,41 @@
 
       firebase.auth()
         .signInWithPopup(provider)
-        .then(async (result) => {
+        .then((result) => {
+
+
+          if (result.additionalUserInfo.isNewUser) {
+            // 신규유저라면, 모달창 닉네임 입력창 띄워짐
+            $("#modalpopbtn").trigger("click");
+            // 다 입력하고 완료 버튼 누르면,
+            $("#okbtn").on("click", async () => {
+              // 신규가입자니까 displayName에 임시닉네임 부여했음. 이 닉네임이 마이페이지에 뜨게됨
+              await result.user.updateProfile({ displayName: $("#nameinput").val() });
+              window.location.href = "/mypage.html";
+
+            })
+            // 그냥 닫기 버튼 누르면,
+            $("#closebtn").on("click", async () => {
+              //계정탈퇴 코드
+              const user = await firebase.auth().currentUser;
+              await user.delete().then(() => {
+                alert("닉네임을 입력해주셔야 가입이 가능합니다!")
+                window.location.href = "/index.html";
+              }).catch((error) => {
+                alert("error!")
+              });
+
+
+            })
+
+
+          } else {
+            //기존 가입자면 패스
+            window.location.href = "/index.html";
+
+          }
+
+
 
           // console.log(result.user);
 
@@ -200,17 +261,6 @@
           // result.additionalUserInfo.isNewUser == true 이면, 신규가입자 
           // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
 
-          if (result.additionalUserInfo.isNewUser) {
-            // 신규가입자니까 displayName에 임시닉네임 부여했음. 이 닉네임이 마이페이지에 뜨게됨
-            await result.user.updateProfile({ displayName: "임시 닉네임 #" + new Date().getTime() });
-            window.location.href = "/mypage.html";
-
-
-          } else {
-            //기존 가입자면 패스
-            window.location.href = "/index.html";
-
-          }
 
 
 

@@ -226,7 +226,7 @@
             $("#modalpopbtn").trigger("click");
             // 다 입력하고 완료 버튼 누르면,
             $("#okbtn").on("click", async () => {
-              // 신규가입자니까 displayName에 임시닉네임 부여했음. 이 닉네임이 마이페이지에 뜨게됨
+              // 이 닉네임이 마이페이지에 뜨게됨
               await result.user.updateProfile({ displayName: $("#nameinput").val() });
               window.location.href = "/mypage.html";
 

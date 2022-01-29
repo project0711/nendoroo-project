@@ -104,6 +104,7 @@
       <div class="card-area row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-2 g-lg-3">
         <!-- 카드 하나 -->
         <!-- <div class="col">
+          
             <div class="card">
               <img
                 src="img/20220120_155021.png"
@@ -129,6 +130,9 @@
   <!-- 제이쿼리 -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <!-- 제이쿼리 쿠키 -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+
   <!-- Option 1: Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
@@ -162,10 +166,21 @@
     const db = firebase.firestore();
 
 
+
+
+
+
+
+    //
+    //
+
     //페이지 들어오자마자 검사한다. 로그인되어있다면, 로그아웃버튼 유지하는 로직
 
     firebase.auth().onAuthStateChanged((user) => {
+
       if (user) {
+        //로그인 상태시
+
 
         // 로그인이 되었으니까,
         // 로그인버튼 안보이게하고
@@ -174,13 +189,58 @@
         $('#logout').show();
         // var uid = user.uid;
 
-      } else {
 
+        // 이전에 스크롤한 위치로 이동
+        // 문자형이니까 숫자형으로 변경함 -> parseInt()
+        let scroll = parseInt(Cookies.get('scroll'));
+        if (scroll) {
+
+
+          // 저장되어있으면 즉, 전에 카드를 눌러서 저장된 스크롤좌표가 있으면 실행
+
+          // 이렇게 시간 간격을 어느정도 줘야 작동함 400ms가 적당한듯
+          setTimeout(function () {
+            window.scrollTo(0, scroll);
+          }, 400);
+
+          //쿠키 지워서 마무리~
+          Cookies.remove('scroll');
+
+        } else {
+          // 맨처음 접속한 페이지라면 저장되어있는게 없으니까 여기가 실행
+          // console.log("저장된 스크롤정보 없음");
+        }
+
+
+
+      } else {
+        // 비로그인 상태시
+
+        // 코드는 위와 동일함
+
+        let scroll = parseInt(Cookies.get('scroll'));
+        if (scroll) {
+
+          setTimeout(function () {
+            window.scrollTo(0, scroll);
+          }, 400);
+
+          //쿠키 지워서 마무리~
+          Cookies.remove('scroll');
+        } else {
+
+        }
 
       }
+
     });
     //
     //
+
+
+
+
+    // 로그인 여부에 상관없이 작동해야하므로, 쿠키에 저장해야함
 
     // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
     $("#uploadbtn").on("click", () => {
@@ -219,7 +279,6 @@
       firebase.auth()
         .signInWithPopup(provider)
         .then((result) => {
-
 
           if (result.additionalUserInfo.isNewUser) {
             // 신규유저라면, 모달창 닉네임 입력창 띄워짐
@@ -286,6 +345,30 @@
 
       });
     });
+    //
+    //
+    //
+
+    let scrollValue;
+
+    // 스크롤위치 가져오는 함수
+    $(window).scroll(function () {
+
+      scrollValue = $(document).scrollTop();
+      // console.log(scrollValue);
+    });
+
+    //동적으로 생성된 태그는 이벤트가 안먹히기때문에
+    //먹히게 하려면 이렇게 작성해야한다
+    $(document).on("click", "#thisiscard", function () {
+
+      // 쿠키에 좌표 넣음
+      Cookies.set('scroll', scrollValue);
+      window.location.href = "/detail.html"
+
+
+    })
+
 
 
 
@@ -295,10 +378,13 @@
       .get()
       .then((list) => {
         list.forEach((doc) => {
-          // console.log(doc.data());
+          // 상품 누르고나서 뒤로가기 눌렀을때 페이지 스크롤 유지되게 해야함.
+          // 상품 누르는 순간 -> 현재 스크롤 좌표를 쿠키에 삽입 -> 뒤로가기 누르면 맨위 onAuthStateChanged 안에 작성 
+          //-> 이동하고나면 바로 아랫줄에 쿠키에 있는 스크롤좌표를 삭제
+
           let card = `<div class="col">
-            <div class="card h-100" >
-              
+                  
+            <div class="card h-100" id="thisiscard" style="cursor:pointer;" >
                <img width="200" height="200" style="object-fit: cover; " src="${doc.data().정보.이미지}" class="card-img-top" alt="중고 피규어">
                
               <div class="card-body pb-0" >
@@ -308,10 +394,15 @@
                 </h6>
               
                 <p>${doc.data().정보.가격}원</p>
+                
+                <p>여기에 폰트어썸 찜표시 하트 달기 -> </p>
+                
                 <p>${doc.data().정보.날짜}</p>
               </div>
             </div>
+           
           </div>`;
+
           $(".card-area").append(card);
         });
       });

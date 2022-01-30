@@ -62,10 +62,7 @@
           </button>
         </form>
         <ul class=" w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link"
-              href="/nendoroid.html">넨도로이드</a>
-          </li>
+
           <li id="uploadbtn" class="nav-item">
             <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link" href="#">판매하기</a>
           </li>
@@ -87,7 +84,7 @@
               </a>
               <ul class=" p-3 dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                 <div class="d-flex flex-column  align-items-center">
-                  <li class=" m-3"><a id="google" class="rounded-pill border border-3 dropdown-item p-3" href="#"
+                  <li class=" m-3"><a id="google" class="rounded-pill border border-2 dropdown-item p-3" href="#"
                       style="display: inline;"><img style="margin-right: 1rem" width="25" height="25"
                         src="img/google.svg" alt="">구글 로그인</a></li>
 
@@ -106,24 +103,7 @@
     <div class="container p-0">
       <!-- 카드 큰 틀-->
       <div class="card-area row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-2 g-lg-3">
-        <!-- 카드 하나 -->
-        <!-- <div class="col">
-          
-            <div class="card">
-              <img
-                src="img/20220120_155021.png"
-                class="card-img-top"
-                alt="..."
-              />
-              <div class="card-body">
-                <h6 class="card-title">
-                  귀멸의칼날 피규어 SPM 네즈코 정품 중고 박스X
-                </h6>
-                <h5>10,000원</h5>
-              </div>
-            </div>
-          </div> -->
-        <!--여기에 등록할때마다 카드가 추가됨 -->
+
       </div>
       <!--  -->
 
@@ -368,11 +348,12 @@
 
     //동적으로 생성된 태그는 이벤트가 안먹히기때문에
     //먹히게 하려면 이렇게 작성해야한다
-    $(document).on("click", "#thisiscard", function () {
-
+    $(document).on("click", "#thisiscard", function (e) {
+      // 현재누른카드의 고유아이디
+      // console.log(e.currentTarget.dataset.id);
       // 쿠키에 좌표 넣음
       Cookies.set('scroll', scrollValue);
-      window.location.href = "/detail.html"
+      window.location.href = `/detail.html?id=${e.currentTarget.dataset.id}`;
 
 
     })
@@ -392,7 +373,7 @@
 
           let card = `<div class="col">
                   
-            <div class="card h-100" id="thisiscard" style="cursor:pointer;" >
+            <div data-id="${doc.id}" class="card h-100" id="thisiscard" style="cursor:pointer;" >
                <img width="200" height="200" style="object-fit: cover; " src="${doc.data().정보.이미지}" class="card-img-top" alt="중고 피규어">
                
               <div class="card-body pb-0" >

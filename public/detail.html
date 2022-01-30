@@ -103,167 +103,177 @@
             </div>
         </div>
     </nav>
+
+    <!-- 넷바 끝 -->
+
+    <!-- 상세페이지 시작 -->
     <div style="background-color: #f9f9f9">
         <div class="container p-0">
-
+            <!-- 번개장터 상세페이지처럼 똑같이 제작 -->
         </div>
-
-        <!-- 제이쿼리 -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-        <!-- Option 1: Bootstrap Bundle with Popper -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
-
-        <!-- firebase -->
-        <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
-
-        <script>
-            const firebaseConfig = {
-                apiKey: "AIzaSyBWX9DpbEhu3ZM9qsFuMwUgPDCODl5j3KI",
-                authDomain: "nendoroo.firebaseapp.com",
-                projectId: "nendoroo",
-                storageBucket: "nendoroo.appspot.com",
-                messagingSenderId: "544914137707",
-                appId: "1:544914137707:web:32991f1ab2f60c87f6072e",
-                measurementId: "G-NL1MPPR95L",
-            };
-            firebase.initializeApp(firebaseConfig);
-        </script>
-
-        <script>
-            // 천자리수 콤마 함수
-            // function priceToString(price) {
-            //   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            // }
-
-            const db = firebase.firestore();
+    </div>
 
 
-            //페이지 들어오자마자 검사한다. 로그인되어있다면, 로그아웃버튼 유지하는 로직
+    <!-- 제이쿼리 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBWX9DpbEhu3ZM9qsFuMwUgPDCODl5j3KI",
+            authDomain: "nendoroo.firebaseapp.com",
+            projectId: "nendoroo",
+            storageBucket: "nendoroo.appspot.com",
+            messagingSenderId: "544914137707",
+            appId: "1:544914137707:web:32991f1ab2f60c87f6072e",
+            measurementId: "G-NL1MPPR95L",
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script>
+        // 천자리수 콤마 함수
+        // function priceToString(price) {
+        //   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        // }
+
+        const db = firebase.firestore();
+
+
+        //페이지 들어오자마자 검사한다. 로그인되어있다면, 로그아웃버튼 유지하는 로직
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+
+
+                // 로그인이 되었으니까,
+                // 로그인버튼 안보이게하고
+                $('#logindrop').hide();
+                // 로그아웃버튼 보여주기
+                $('#logout').show();
+                // var uid = user.uid;
+
+            } else {
+
+
+            }
+        });
+        //
+        //
+
+        // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
+        $("#uploadbtn").on("click", () => {
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
-
-
-                    // 로그인이 되었으니까,
-                    // 로그인버튼 안보이게하고
-                    $('#logindrop').hide();
-                    // 로그아웃버튼 보여주기
-                    $('#logout').show();
-                    // var uid = user.uid;
+                    //로그인되어있으면 업로드페이지로 이동
+                    window.location.href = "/upload.html";
 
                 } else {
 
-
+                    alert("로그인이 필요합니다");
+                    window.location.href = "/index.html";
                 }
             });
-            //
-            //
+        })
+        //
+        $("#mypagebtn").on("click", () => {
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    //로그인되어있으면 업로드페이지로 이동
+                    window.location.href = "/mypage.html";
 
-            // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
-            $("#uploadbtn").on("click", () => {
-                firebase.auth().onAuthStateChanged((user) => {
-                    if (user) {
-                        //로그인되어있으면 업로드페이지로 이동
-                        window.location.href = "/upload.html";
+                } else {
 
-                    } else {
-
-                        alert("로그인이 필요합니다");
-                        window.location.href = "/index.html";
-                    }
-                });
-            })
-            //
-            $("#mypagebtn").on("click", () => {
-                firebase.auth().onAuthStateChanged((user) => {
-                    if (user) {
-                        //로그인되어있으면 업로드페이지로 이동
-                        window.location.href = "/mypage.html";
-
-                    } else {
-
-                        alert("로그인이 필요합니다");
-                        window.location.href = "/index.html";
-                    }
-                });
-            })
-
-            let provider = new firebase.auth.GoogleAuthProvider();
-
-            // 구글로그인 클릭시
-            $("#google").on("click", () => {
-
-                firebase.auth()
-                    .signInWithPopup(provider)
-                    .then((result) => {
-
-
-                        // console.log(result.user);
-
-                        // console.log(result);
-
-                        // result.additionalUserInfo.isNewUser == true 이면, 신규가입자 
-                        // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
-
-
-
-
-                        if (result.additionalUserInfo.isNewUser) {
-                            // 신규유저라면, 모달창 닉네임 입력창 띄워짐
-                            $("#modalpopbtn").trigger("click");
-                            // 다 입력하고 완료 버튼 누르면,
-                            $("#okbtn").on("click", async () => {
-                                // 이 닉네임이 마이페이지에 뜨게됨
-                                await result.user.updateProfile({ displayName: $("#nameinput").val() });
-                                window.location.href = "/mypage.html";
-
-                            })
-                            // 그냥 닫기 버튼 누르면,
-                            $("#closebtn").on("click", async () => {
-                                //계정탈퇴 코드
-                                const user = await firebase.auth().currentUser;
-                                await user.delete().then(() => {
-                                    alert("닉네임을 입력해주셔야 가입이 가능합니다!")
-                                    window.location.href = "/index.html";
-                                }).catch((error) => {
-                                    alert("error!")
-                                });
-
-
-                            })
-
-
-                        } else {
-                            //기존 가입자면 패스
-                            window.location.href = "/index.html";
-
-                        }
-
-
-                    }).catch((error) => {
-
-                    });
-            });
-
-
-
-
-            // 로그아웃 
-            $("#logout").on("click", () => {
-
-                firebase.auth().signOut().then(() => {
-                    alert("로그아웃 되었습니다");
+                    alert("로그인이 필요합니다");
                     window.location.href = "/index.html";
+                }
+            });
+        })
+
+        let provider = new firebase.auth.GoogleAuthProvider();
+
+        // 구글로그인 클릭시
+        $("#google").on("click", () => {
+
+            firebase.auth()
+                .signInWithPopup(provider)
+                .then(async (result) => {
+
+
+
+                    // console.log(result.user);
+
+                    // console.log(result);
+
+                    // result.additionalUserInfo.isNewUser == true 이면, 신규가입자 
+                    // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
+
+
+
+
+                    if (result.additionalUserInfo.isNewUser) {
+
+                        // 신규유저라면, 모달창 닉네임 입력창 띄워짐
+                        $("#modalpopbtn").trigger("click");
+                        // 다 입력하고 완료 버튼 누르면,
+                        $("#okbtn").on("click", async () => {
+                            // 이 닉네임이 마이페이지에 뜨게됨
+                            await result.user.updateProfile({ displayName: $("#nameinput").val() });
+                            // 유저정보 db에 저장
+                            await db.collection("user").add({ 유저고유아이디: result.user.uid, 찜목록: [] });
+                            window.location.href = "/mypage.html";
+
+                        })
+                        // 그냥 닫기 버튼 누르면,
+                        $("#closebtn").on("click", async () => {
+                            //계정탈퇴 코드
+                            const user = await firebase.auth().currentUser;
+                            await user.delete().then(() => {
+                                alert("닉네임을 입력해주셔야 가입이 가능합니다!")
+                                window.location.href = "/index.html";
+                            }).catch((error) => {
+                                alert("error!")
+                            });
+
+
+                        })
+
+
+                    } else {
+                        //기존 가입자면 패스
+                        window.location.href = "/index.html";
+
+                    }
+
+
                 }).catch((error) => {
 
                 });
+        });
+
+
+
+
+        // 로그아웃 
+        $("#logout").on("click", () => {
+
+            firebase.auth().signOut().then(() => {
+                alert("로그아웃 되었습니다");
+                window.location.href = "/index.html";
+            }).catch((error) => {
+
             });
+        });
 
 
 
@@ -273,7 +283,7 @@
 
 
 
-        </script>
+    </script>
 </body>
 
 </html>

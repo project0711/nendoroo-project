@@ -173,7 +173,7 @@
 
       if (user) {
         //로그인 상태시
-
+        // console.log(user.uid);
 
         // 로그인이 되었으니까,
         // 로그인버튼 안보이게하고
@@ -271,15 +271,24 @@
 
       firebase.auth()
         .signInWithPopup(provider)
-        .then((result) => {
+        .then(async (result) => {
 
           if (result.additionalUserInfo.isNewUser) {
+
+
+
+
             // 신규유저라면, 모달창 닉네임 입력창 띄워짐
             $("#modalpopbtn").trigger("click");
             // 다 입력하고 완료 버튼 누르면,
             $("#okbtn").on("click", async () => {
+
               // 이 닉네임이 마이페이지에 뜨게됨
               await result.user.updateProfile({ displayName: $("#nameinput").val() });
+
+              // 유저정보 db에 저장
+              await db.collection("user").add({ 유저고유아이디: result.user.uid, 찜목록: [] });
+
               window.location.href = "/mypage.html";
 
             })
@@ -289,6 +298,7 @@
               const user = await firebase.auth().currentUser;
               await user.delete().then(() => {
                 alert("닉네임을 입력해주셔야 가입이 가능합니다!")
+
                 window.location.href = "/index.html";
               }).catch((error) => {
                 alert("error!")
@@ -299,6 +309,7 @@
 
 
           } else {
+
             //기존 가입자면 패스
             window.location.href = "/index.html";
 

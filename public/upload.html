@@ -13,6 +13,7 @@
     <style>
         * {
             box-sizing: border-box;
+
         }
     </style>
 
@@ -96,7 +97,9 @@
 
             <button class="btn btn-danger mt-3" id="send">업로드</button>
 
+
         </form>
+
     </div>
 
     <!-- 제이쿼리 -->
@@ -126,8 +129,12 @@
         firebase.initializeApp(firebaseConfig);
     </script>
 
+    <!-- 로딩스피너 플러그인 -->
     <script
         src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
+
+
 
     <script>
 
@@ -206,6 +213,7 @@
                 });
         });
 
+        // 로그아웃
         $("#logout").on("click", () => {
 
 
@@ -223,6 +231,7 @@
 
 
 
+        // 업로드 버튼 클릭시
         $("#send").on("click", (e) => {
 
 
@@ -238,6 +247,8 @@
                 //
                 // 로딩스피너
                 $.LoadingOverlay("show");
+
+
 
 
                 var file = document.querySelector("#image").files[0];
@@ -265,8 +276,8 @@
                                 이미지: url,
 
                             };
-                            db.collection("product").add({ 정보 }).then((result) => {
-
+                            db.collection("product").add({ 정보 }).then(async (result) => {
+                                await alert("업로드가 완료되었습니다! 마이페이지로 이동합니다.");
                                 // 마이페이지로 이동
                                 window.location.href = "/mypage.html";
 

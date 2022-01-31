@@ -14,6 +14,26 @@
     * {
       box-sizing: border-box;
     }
+
+    #uploadbtn:hover {
+      background-color: bisque;
+
+    }
+
+    #mypagebtn:hover {
+      background-color: bisque;
+
+    }
+
+    #logoutbtn:hover {
+      background-color: bisque;
+
+    }
+
+    .loginbtn:hover {
+      background-color: bisque;
+
+    }
   </style>
 
   <title>넨도루 | 중고 피규어 거래소</title>
@@ -64,7 +84,7 @@
         <ul class=" w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
 
           <li id="uploadbtn" class="nav-item">
-            <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link" href="#">판매하기</a>
+            <a style=" font-size: larger; font-weight: bolder; color: black" class=" nav-link" href="#">판매하기</a>
           </li>
           <li id="mypagebtn" class="nav-item">
             <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link" href="#">마이페이지</a>
@@ -78,8 +98,8 @@
 
           <ul id="logindrop" class="navbar-nav">
             <li class="nav-item dropdown">
-              <a style="font-weight: bolder; color: black; font-size: larger;" class="nav-link dropdown-toggle" href="#"
-                id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a style="font-weight: bolder; color: black; font-size: larger;" class="loginbtn nav-link dropdown-toggle"
+                href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 로그인
               </a>
               <ul class=" p-3 dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
@@ -257,10 +277,12 @@
         .signInWithPopup(provider)
         .then(async (result) => {
 
+          // result.additionalUserInfo.isNewUser == true 이면, 신규가입자
+          // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
+
+
+
           if (result.additionalUserInfo.isNewUser) {
-
-
-
 
             // 신규유저라면, 모달창 닉네임 입력창 띄워짐
             $("#modalpopbtn").trigger("click");
@@ -301,12 +323,7 @@
 
 
 
-          // console.log(result.user);
 
-          // console.log(result);
-
-          // result.additionalUserInfo.isNewUser == true 이면, 신규가입자 
-          // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
 
 
 
@@ -361,6 +378,7 @@
 
 
 
+    // 카드
 
     db.collection("product")
       .orderBy("정보.날짜", "desc")

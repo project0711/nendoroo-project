@@ -15,6 +15,26 @@
             box-sizing: border-box;
 
         }
+
+        #uploadbtn:hover {
+            background-color: bisque;
+
+        }
+
+        #mypagebtn:hover {
+            background-color: bisque;
+
+        }
+
+        #logoutbtn:hover {
+            background-color: bisque;
+
+        }
+
+        .loginbtn:hover {
+            background-color: bisque;
+
+        }
     </style>
 
     <title>넨도루 | 중고 피규어 거래소</title>
@@ -38,18 +58,17 @@
                 </form>
                 <ul class="w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
 
-                    <li class="nav-item">
-                        <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link"
-                            href="/upload.html">판매하기</a>
+                    <li id="uploadbtn" class="nav-item">
+                        <a style=" font-size: larger; font-weight: bolder; color: black" class=" nav-link"
+                            href="#">판매하기</a>
                     </li>
-                    <li class="nav-item">
+                    <li id="mypagebtn" class="nav-item">
                         <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link"
-                            href="/mypage.html">마이페이지</a>
+                            href="#">마이페이지</a>
                     </li>
-
                     <!-- 평소에는 안보이고 있음 -->
                     <li id="logout" style="display: none;" class="nav-item">
-                        <a style=" cursor: pointer; font-size: larger; font-weight: bolder; color: black"
+                        <a id="logoutbtn" style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
                             class="nav-link">로그아웃</a>
                     </li>
 
@@ -57,19 +76,23 @@
                     <ul id="logindrop" class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a style="font-weight: bolder; color: black; font-size: larger;"
-                                class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                                class="loginbtn nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 로그인
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li class="my-3"><a id="google" class="dropdown-item p-3" href="#"
-                                        style="display: inline;"><img style="margin-right: 1rem" width="25" height="25"
-                                            src="img/google.svg" alt="">구글 로그인</a></li>
+                            <ul class=" p-3 dropdown-menu dropdown-menu-dark"
+                                aria-labelledby="navbarDarkDropdownMenuLink">
+                                <div class="d-flex flex-column  align-items-center">
+                                    <li class=" m-3"><a id="google"
+                                            class="rounded-pill border border-2 dropdown-item p-3" href="#"
+                                            style="display: inline;"><img style="margin-right: 1rem" width="25"
+                                                height="25" src="img/google.svg" alt="">구글 로그인</a></li>
 
+                                    <p class="pt-3">현재 브라우저에 로그인 되어있는 구글 계정과 연동하게 됩니다.</p>
+                                </div>
                             </ul>
-
+                        </li>
                     </ul>
-                    </li>
                 </ul>
 
                 </ul>
@@ -129,6 +152,7 @@
     <!-- 로딩스피너 플러그인 -->
     <script
         src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
 
 
 
@@ -264,22 +288,37 @@
                     () => {
                         업로드작업.snapshot.ref.getDownloadURL().then((url) => {
 
-                            let 정보 = {
 
-                                제목: $("#title").val(),
-                                내용: $("#content").val(),
-                                가격: priceToString($("#price").val()),
-                                날짜: new Date().toLocaleString(),
-                                이미지: url,
-                                찜한사람들: [],
+                            firebase.auth().onAuthStateChanged((user) => {
+                                if (user) {
 
-                            };
-                            db.collection("product").add({ 정보 }).then(async (result) => {
-                                await alert("업로드가 완료되었습니다! 마이페이지로 이동합니다.");
-                                // 마이페이지로 이동
-                                window.location.href = "/mypage.html";
 
+                                    let 정보 = {
+
+                                        업로더닉네임: user.displayName,
+                                        업로더고유아이디: user.uid,
+                                        제목: $("#title").val(),
+                                        내용: $("#content").val(),
+                                        가격: priceToString($("#price").val()),
+                                        날짜: new Date().toLocaleString(),
+                                        이미지: url,
+                                        찜한사람들: [],
+
+                                    };
+                                    db.collection("product").add({ 정보 }).then(async (result) => {
+                                        await alert("업로드가 완료되었습니다! 마이페이지로 이동합니다.");
+                                        // 마이페이지로 이동
+                                        window.location.href = "/mypage.html";
+
+                                    });
+                                } else {
+
+
+                                }
                             });
+
+
+
                         });
                     }
                 );

@@ -219,104 +219,26 @@
 
     <!-- 상세페이지 시작 -->
     <div style="background-color: #f9f9f9">
+      <!-- 상단부분 -->
       <div id="detailInfo" class="container">
         <!-- 번개장터 상세페이지처럼 똑같이 제작!!!! -->
 
-        <!-- 상단부분  -->
-        <div class="row">
-          <div class="col-12 col-lg-7 col-xl-6">
-            <img
-              width="100%"
-              style="object-fit: contain"
-              src="img/17d88064a952f9d0e.jpg"
-              alt=""
-              srcset=""
-            />
-          </div>
-          <div
-            class="col-12 col-lg-5 col-xl-6 d-flex flex-column justify-content-around p-3"
-          >
-            <div>
-              <span>업로더:</span>
-              <span>업로더이름</span>
-            </div>
-
-            <p>제목제목제목제목제목제목제목제목</p>
-            <p>가격가격가격가격가격가격가격가격가격가격</p>
-            <p>
-              내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-            </p>
-            <p>업로드날짜날짜날짜날짜날짜날짜</p>
-            <div class="d-grid gap-2 d-md-block">
-              <button class="btn btn-outline-secondary me-md-2" type="button">
-                <i class="far fa-star"></i> 찜 (찜한사람들 배열길이)
-              </button>
-              <button class="btn btn-danger me-md-2" type="button">
-                안전구매
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 하단 부분 작성해야함 -->
-        <!--( 밑에는 판매자가 팔고있는 다른 피규어들 카드로 나열해줌
-            ~~님이 업로드한 상품들  이라고 적고 밑에 카드들 나열, 팔렸던 상품들은
-            예약완료 혹은 판매완료 처리로 상품사진이 블라인드처리되며 적혀져 있어야한다 -->
-
+        <!--  -->
+      </div>
+      <!-- 하단부분 -->
+      <div class="container">
+        <!-- 번개장터 상세페이지처럼 똑같이 제작!!!! -->
         <div style="background-color: #f9f9f9">
           <div class="container p-0">
-            <h5>
-              (쿼리스트링의 id와 일치하는, product컬렉션의 상품중에서의 uid를
-              찾고 그곳의 현재업로더의 닉네임을 가져옴) 님이 업로드한 상품들
-            </h5>
+            <h5 class="mt-5 mb-4">현재 업로더의 판매중인 모든 상품들</h5>
             <!-- 카드 큰 틀-->
             <div
               class="card-area row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-2 g-lg-3"
-            >
-              <div class="col">
-                <div
-                  data-id="${doc.id}"
-                  class="card h-100"
-                  id="thisiscard"
-                  style="cursor: pointer"
-                >
-                  <img
-                    width="200"
-                    height="200"
-                    style="object-fit: cover"
-                    src="${doc.data().정보.이미지}"
-                    class="card-img-top"
-                    alt=""
-                  />
-
-                  <div class="card-body pb-0">
-                    <p
-                      class="fw-bolder card-title"
-                      style="
-                        font-size: 14px;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        word-wrap: break-word;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 1;
-                        -webkit-box-orient: vertical;
-                      "
-                    >
-                      ${doc.data().정보.제목}
-                    </p>
-
-                    <p class="fw-bolder">${doc.data().정보.가격} 원</p>
-
-                    <p>${doc.data().정보.날짜}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ></div>
             <!--  -->
           </div>
           <!-- 큰 틀 -->
         </div>
-
         <!--  -->
       </div>
     </div>
@@ -378,14 +300,114 @@
 
       //쿼리스트링에 써있는 아이디와 일치하는 문서를 db에서 꺼내온다
       let 쿼리스트링 = new URLSearchParams(window.location.search); //-> 오브젝트로 반환
+
       db.collection("product")
         .doc(쿼리스트링.get("id"))
         .get()
         .then((result) => {
           // console.log(result.data());
           // 동적으로 태그 화면생성하자
-          // $("#detailInfo").append(``);
+
+          let info = `
+        <!-- 상단부분  -->
+        <div class="row">
+          <div class="col-12 col-lg-7 col-xl-6">
+            <img
+              width="100%"
+              style="object-fit: contain"
+              src="${result.data().정보.이미지}"
+              alt=""
+              srcset=""
+            />
+          </div>
+          <div
+            class="col-12 col-lg-5 col-xl-6 d-flex flex-column justify-content-around p-3"
+          >
+            <div>
+              <span>업로더 : </span>
+              <span>${result.data().정보.업로더닉네임}</span>
+            </div>
+
+            <p>${result.data().정보.제목}</p>
+            <p>${result.data().정보.가격}</p>
+            <p>
+              ${result.data().정보.내용}
+            </p>
+            <p>등록날짜 : ${result.data().정보.날짜}</p>
+            <div class="d-grid gap-2 d-md-block">
+              <button class="btn btn-lg btn-outline-secondary me-md-2" type="button">
+                <i class="far fa-star"></i> 찜 ${
+                  result.data().정보.찜한사람들.length
+                }
+              </button>
+              <button class="btn btn-lg btn-danger me-md-2" type="button">
+                안전 구매
+              </button>
+            </div>
+          </div>
+        </div>`;
+          $("#detailInfo").append(info);
         });
+
+      //하단부분
+      db.collection("product")
+        .orderBy("정보.날짜", "desc")
+        .get()
+        .then((list) => {
+          list.forEach((result) => {
+            let info = `
+             <!-- 하단 부분 작성해야함 -->
+        <!--( 밑에는 판매자가 팔고있는 다른 피규어들 카드로 나열해줌
+            ~~님이 업로드한 상품들  이라고 적고 밑에 카드들 나열, 팔렸던 상품들은
+            예약완료 혹은 판매완료 처리로 상품사진이 블라인드처리되며 적혀져 있어야한다 -->
+
+            <div class="col">
+                <div
+
+                  class="card h-100"
+                  id="thisiscard"
+                  style="cursor: pointer"
+                >
+                  <img
+                    width="200"
+                    height="200"
+                    style="object-fit: cover"
+                    src="${result.data().정보.이미지}"
+                    class="card-img-top"
+                    alt=""
+                  />
+
+                  <div class="card-body pb-0">
+                    <p
+                      class="fw-bolder card-title"
+                      style="
+                        font-size: 14px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        word-wrap: break-word;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                      "
+                    >
+                      ${result.data().정보.제목}
+                    </p>
+
+                    <p class="fw-bolder">${result.data().정보.가격} 원</p>
+
+                    <p>${result.data().정보.날짜}</p>
+                  </div>
+                </div>
+              </div>
+        `;
+            $(".card-area").append(info);
+          });
+        });
+
+      //
+      //
+      //
+      //
 
       // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
       $("#uploadbtn").on("click", () => {

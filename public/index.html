@@ -1,398 +1,445 @@
 <!-- 중고 피규어 거래 플랫폼 Nendoroo!-->
 <!DOCTYPE html>
 <html lang="ko">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    #uploadbtn:hover {
-      background-color: bisque;
-
-    }
-
-    #mypagebtn:hover {
-      background-color: bisque;
-
-    }
-
-    #logoutbtn:hover {
-      background-color: bisque;
-
-    }
-
-    .loginbtn:hover {
-      background-color: bisque;
-
-    }
-  </style>
-
-  <title>넨도루 | 중고 피규어 거래소</title>
-</head>
-
-<body class="mx-auto">
-  <!-- 모달 -->
-  <button id="modalpopbtn" style="display: none;" type="button" class="btn btn-primary" data-bs-toggle="modal"
-    data-bs-target="#staticBackdrop">
-    모달버튼
-  </button>
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header d-flex flex-column">
-          <h5 class="modal-title" id="staticBackdropLabel">신규가입을 환영합니다!</h5>
-          <h4>사용하실 닉네임을 입력해주세요.</h4>
-          <p style="color: red;">한번 설정하시면 변경하실 수 없습니다.<br>변경하시려면, 탈퇴 후 재가입 하셔야 합니다.</p>
-
-          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-        </div>
-        <div class="modal-body">
-          <input id="nameinput" type="text" class="form-control" placeholder="닉네임 입력" aria-label="Username">
-        </div>
-        <div class="modal-footer">
-          <button id="closebtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-          <button id="okbtn" type="button" class="btn btn-primary">완료</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--  -->
-  <nav class="mx-auto w-75 navbar navbar-expand-xxl navbar-light light mb-2">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/index.html"><img src="img/Nendoroo (250 × 100px).svg" alt="" srcset="" /></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse my-4" id="navbarSupportedContent">
-        <form class="d-flex mx-auto" style="height: 3rem">
-          <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search" />
-          <button class="btn btn-outline-secondary" type="submit">
-            Search
-          </button>
-        </form>
-        <ul class=" w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
-
-          <li id="uploadbtn" class="nav-item">
-            <a style=" font-size: larger; font-weight: bolder; color: black" class=" nav-link" href="#">판매하기</a>
-          </li>
-          <li id="mypagebtn" class="nav-item">
-            <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link" href="#">마이페이지</a>
-          </li>
-          <!-- 평소에는 안보이고 있음 -->
-          <li id="logout" style="display: none;" class="nav-item">
-            <a id="logoutbtn" style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
-              class="nav-link">로그아웃</a>
-          </li>
-
-
-          <ul id="logindrop" class="navbar-nav">
-            <li class="nav-item dropdown">
-              <a style="font-weight: bolder; color: black; font-size: larger;" class="loginbtn nav-link dropdown-toggle"
-                href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                로그인
-              </a>
-              <ul class=" p-3 dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                <div class="d-flex flex-column  align-items-center">
-                  <li class=" m-3"><a id="google" class="rounded-pill border border-2 dropdown-item p-3" href="#"
-                      style="display: inline;"><img style="margin-right: 1rem" width="25" height="25"
-                        src="img/google.svg" alt="">구글 로그인</a></li>
-
-                  <p class="pt-3">현재 브라우저에 로그인 되어있는 구글 계정과 연동하게 됩니다.</p>
-                </div>
-              </ul>
-            </li>
-          </ul>
-
-
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <div style="background-color: #f9f9f9">
-    <div class="container p-0">
-      <!-- 카드 큰 틀-->
-      <div class="card-area row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-2 g-lg-3">
-
-      </div>
-      <!--  -->
-
-    </div>
-    <!-- 큰 틀 -->
-  </div>
-
-  <!-- 제이쿼리 -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  <!-- 제이쿼리 쿠키 -->
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
-
-  <!-- Option 1: Bootstrap Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
-
-  <!-- firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBWX9DpbEhu3ZM9qsFuMwUgPDCODl5j3KI",
-      authDomain: "nendoroo.firebaseapp.com",
-      projectId: "nendoroo",
-      storageBucket: "nendoroo.appspot.com",
-      messagingSenderId: "544914137707",
-      appId: "1:544914137707:web:32991f1ab2f60c87f6072e",
-      measurementId: "G-NL1MPPR95L",
-    };
-    firebase.initializeApp(firebaseConfig);
-  </script>
-
-  <script>
-    // 천자리수 콤마 함수
-    // function priceToString(price) {
-    //   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    // }
-
-    const db = firebase.firestore();
-
-
-
-    //페이지 들어오자마자 검사한다. 로그인되어있다면, 로그아웃버튼 유지하는 로직
-
-    firebase.auth().onAuthStateChanged((user) => {
-
-      if (user) {
-        //로그인 상태시
-        // console.log(user.uid);
-
-        // 로그인이 되었으니까,
-        // 로그인버튼 안보이게하고
-        $('#logindrop').hide();
-        // 로그아웃버튼 보여주기
-        $('#logout').show();
-        // var uid = user.uid;
-
-
-        // 이전에 스크롤한 위치로 이동
-        // 문자형이니까 숫자형으로 변경함 -> parseInt()
-        let scroll = parseInt(Cookies.get('scroll'));
-        if (scroll) {
-
-
-          // 저장되어있으면 즉, 전에 카드를 눌러서 저장된 스크롤좌표가 있으면 실행
-
-          // 이렇게 시간 간격을 어느정도 줘야 작동함 400ms가 적당한듯
-          setTimeout(function () {
-            window.scrollTo(0, scroll);
-          }, 400);
-
-          //쿠키 지워서 마무리~
-          Cookies.remove('scroll');
-
-        } else {
-          // 맨처음 접속한 페이지라면 저장되어있는게 없으니까 여기가 실행
-          // console.log("저장된 스크롤정보 없음");
-        }
-
-
-
-      } else {
-        // 비로그인 상태시
-
-        // 코드는 위와 동일함
-
-        let scroll = parseInt(Cookies.get('scroll'));
-        if (scroll) {
-
-          setTimeout(function () {
-            window.scrollTo(0, scroll);
-          }, 400);
-
-          //쿠키 지워서 마무리~
-          Cookies.remove('scroll');
-        } else {
-
-        }
-
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
       }
 
-    });
-    //
-    //
+      #uploadbtn:hover {
+        background-color: bisque;
+      }
 
+      #mypagebtn:hover {
+        background-color: bisque;
+      }
 
+      #logoutbtn:hover {
+        background-color: bisque;
+      }
 
+      .loginbtn:hover {
+        background-color: bisque;
+      }
+    </style>
 
-    // 로그인 여부에 상관없이 작동해야하므로, 쿠키에 저장해야함
+    <title>넨도루 | 중고 피규어 거래소</title>
+  </head>
 
-    // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
-    $("#uploadbtn").on("click", () => {
+  <body class="mx-auto">
+    <!-- 모달 -->
+    <button
+      id="modalpopbtn"
+      style="display: none"
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#staticBackdrop"
+    >
+      모달버튼
+    </button>
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header d-flex flex-column">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              신규가입을 환영합니다!
+            </h5>
+            <h4>사용하실 닉네임을 입력해주세요.</h4>
+            <p style="color: red">
+              한번 설정하시면 변경하실 수 없습니다.<br />변경하시려면, 탈퇴 후
+              재가입 하셔야 합니다.
+            </p>
+
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body">
+            <input
+              id="nameinput"
+              type="text"
+              class="form-control"
+              placeholder="닉네임 입력"
+              aria-label="Username"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              id="closebtn"
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              닫기
+            </button>
+            <button id="okbtn" type="button" class="btn btn-primary">
+              완료
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <nav class="mx-auto w-75 navbar navbar-expand-xxl navbar-light light mb-2">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/index.html"
+          ><img src="img/Nendoroo (250 × 100px).svg" alt="" srcset=""
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse my-4" id="navbarSupportedContent">
+          <form class="d-flex mx-auto" style="height: 3rem">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="검색"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-secondary" type="submit">
+              Search
+            </button>
+          </form>
+          <ul class="w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
+            <li id="uploadbtn" class="nav-item">
+              <a
+                style="font-size: larger; font-weight: bolder; color: black"
+                class="nav-link"
+                href="#"
+                >판매하기</a
+              >
+            </li>
+            <li id="mypagebtn" class="nav-item">
+              <a
+                style="font-size: larger; font-weight: bolder; color: black"
+                class="nav-link"
+                href="#"
+                >마이페이지</a
+              >
+            </li>
+            <!-- 평소에는 안보이고 있음 -->
+            <li id="logout" style="display: none" class="nav-item">
+              <a
+                id="logoutbtn"
+                style="
+                  cursor: pointer;
+                  font-size: larger;
+                  font-weight: bolder;
+                  color: black;
+                "
+                class="nav-link"
+                >로그아웃</a
+              >
+            </li>
+
+            <ul id="logindrop" class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a
+                  style="font-weight: bolder; color: black; font-size: larger"
+                  class="loginbtn nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDarkDropdownMenuLink"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  로그인
+                </a>
+                <ul
+                  class="p-3 dropdown-menu dropdown-menu-dark"
+                  aria-labelledby="navbarDarkDropdownMenuLink"
+                >
+                  <div class="d-flex flex-column align-items-center">
+                    <li class="m-3">
+                      <a
+                        id="google"
+                        class="rounded-pill border border-2 dropdown-item p-3"
+                        href="#"
+                        style="display: inline"
+                        ><img
+                          style="margin-right: 1rem"
+                          width="25"
+                          height="25"
+                          src="img/google.svg"
+                          alt=""
+                        />구글 로그인</a
+                      >
+                    </li>
+
+                    <p class="pt-3">
+                      현재 브라우저에 로그인 되어있는 구글 계정과 연동하게
+                      됩니다.
+                    </p>
+                  </div>
+                </ul>
+              </li>
+            </ul>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div style="background-color: #f9f9f9">
+      <div class="container p-0">
+        <!-- 카드 큰 틀-->
+        <div
+          class="card-area row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-2 g-lg-3"
+        ></div>
+        <!--  -->
+      </div>
+      <!-- 큰 틀 -->
+    </div>
+
+    <!-- 제이쿼리 -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <!-- 제이쿼리 쿠키 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBWX9DpbEhu3ZM9qsFuMwUgPDCODl5j3KI",
+        authDomain: "nendoroo.firebaseapp.com",
+        projectId: "nendoroo",
+        storageBucket: "nendoroo.appspot.com",
+        messagingSenderId: "544914137707",
+        appId: "1:544914137707:web:32991f1ab2f60c87f6072e",
+        measurementId: "G-NL1MPPR95L",
+      };
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <script>
+      // 천자리수 콤마 함수
+      // function priceToString(price) {
+      //   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      // }
+
+      const db = firebase.firestore();
+
+      //페이지 들어오자마자 검사한다. 로그인되어있다면, 로그아웃버튼 유지하는 로직
+
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          //로그인되어있으면 업로드페이지로 이동
-          window.location.href = "/upload.html";
+          //로그인 상태시
+          // console.log(user.uid);
 
-        } else {
+          // 로그인이 되었으니까,
+          // 로그인버튼 안보이게하고
+          $("#logindrop").hide();
+          // 로그아웃버튼 보여주기
+          $("#logout").show();
+          // var uid = user.uid;
 
-          alert("로그인이 필요합니다");
-          window.location.href = "/index.html";
-        }
-      });
-    })
-    //
-    $("#mypagebtn").on("click", () => {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          //로그인되어있으면 업로드페이지로 이동
-          window.location.href = "/mypage.html";
+          // 이전에 스크롤한 위치로 이동
+          // 문자형이니까 숫자형으로 변경함 -> parseInt()
+          let scroll = parseInt(Cookies.get("scroll"));
+          if (scroll) {
+            // 저장되어있으면 즉, 전에 카드를 눌러서 저장된 스크롤좌표가 있으면 실행
 
-        } else {
+            // 이렇게 시간 간격을 어느정도 줘야 작동함 400ms가 적당한듯
+            setTimeout(function () {
+              window.scrollTo(0, scroll);
+            }, 400);
 
-          alert("로그인이 필요합니다");
-          window.location.href = "/index.html";
-        }
-      });
-    })
-
-    let provider = new firebase.auth.GoogleAuthProvider();
-
-    // 구글로그인 클릭시
-    $("#google").on("click", () => {
-
-      firebase.auth()
-        .signInWithPopup(provider)
-        .then(async (result) => {
-
-          // result.additionalUserInfo.isNewUser == true 이면, 신규가입자
-          // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
-
-
-
-          if (result.additionalUserInfo.isNewUser) {
-
-            // 신규유저라면, 모달창 닉네임 입력창 띄워짐
-            $("#modalpopbtn").trigger("click");
-            // 다 입력하고 완료 버튼 누르면,
-            $("#okbtn").on("click", async () => {
-
-              // 이 닉네임이 마이페이지에 뜨게됨
-              await result.user.updateProfile({ displayName: $("#nameinput").val() });
-
-              // 유저정보 db에 저장
-              await db.collection("user").add({ 유저고유아이디: result.user.uid, 찜목록: [] });
-
-              window.location.href = "/mypage.html";
-
-            })
-            // 그냥 닫기 버튼 누르면,
-            $("#closebtn").on("click", async () => {
-              //계정탈퇴 코드
-              const user = await firebase.auth().currentUser;
-              await user.delete().then(() => {
-                alert("닉네임을 입력해주셔야 가입이 가능합니다!")
-
-                window.location.href = "/index.html";
-              }).catch((error) => {
-                alert("error!")
-              });
-
-
-            })
-
-
+            //쿠키 지워서 마무리~
+            Cookies.remove("scroll");
           } else {
-
-            //기존 가입자면 패스
-            window.location.href = "/index.html";
-
+            // 맨처음 접속한 페이지라면 저장되어있는게 없으니까 여기가 실행
+            // console.log("저장된 스크롤정보 없음");
           }
+        } else {
+          // 비로그인 상태시
 
+          // 코드는 위와 동일함
 
+          let scroll = parseInt(Cookies.get("scroll"));
+          if (scroll) {
+            setTimeout(function () {
+              window.scrollTo(0, scroll);
+            }, 400);
 
-
-
-
-
-
-
-
-
-
-        }).catch((error) => {
-
-        });
-    });
-
-
-
-
-    // 로그아웃 
-    $("#logout").on("click", () => {
-
-      firebase.auth().signOut().then(() => {
-        alert("로그아웃 되었습니다");
-        window.location.href = "/index.html";
-      }).catch((error) => {
-
+            //쿠키 지워서 마무리~
+            Cookies.remove("scroll");
+          } else {
+          }
+        }
       });
-    });
-    //
-    //
-    //
+      //
+      //
 
-    let scrollValue;
+      // 로그인 여부에 상관없이 작동해야하므로, 쿠키에 저장해야함
 
-    // 스크롤위치 가져오는 함수
-    $(window).scroll(function () {
+      // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
+      $("#uploadbtn").on("click", () => {
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            //로그인되어있으면 업로드페이지로 이동
+            window.location.href = "/upload.html";
+          } else {
+            alert("로그인이 필요합니다");
+            window.location.href = "/index.html";
+          }
+        });
+      });
+      //
+      $("#mypagebtn").on("click", () => {
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            //로그인되어있으면 업로드페이지로 이동
+            window.location.href = "/mypage.html";
+          } else {
+            alert("로그인이 필요합니다");
+            window.location.href = "/index.html";
+          }
+        });
+      });
 
-      scrollValue = $(document).scrollTop();
-      // console.log(scrollValue);
-    });
+      let provider = new firebase.auth.GoogleAuthProvider();
 
-    //동적으로 생성된 태그는 이벤트가 안먹히기때문에
-    //먹히게 하려면 이렇게 작성해야한다
-    $(document).on("click", "#thisiscard", function (e) {
-      // 현재누른카드의 고유아이디
-      // console.log(e.currentTarget.dataset.id);
-      // 쿠키에 좌표 넣음
-      Cookies.set('scroll', scrollValue);
-      window.location.href = `/detail.html?id=${e.currentTarget.dataset.id}`;
+      // 구글로그인 클릭시
+      $("#google").on("click", () => {
+        firebase
+          .auth()
+          .signInWithPopup(provider)
+          .then(async (result) => {
+            // result.additionalUserInfo.isNewUser == true 이면, 신규가입자
+            // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
 
+            if (result.additionalUserInfo.isNewUser) {
+              // 신규유저라면, 모달창 닉네임 입력창 띄워짐
+              $("#modalpopbtn").trigger("click");
+              // 다 입력하고 완료 버튼 누르면,
+              $("#okbtn").on("click", async () => {
+                // 이 닉네임이 마이페이지에 뜨게됨
+                await result.user.updateProfile({
+                  displayName: $("#nameinput").val(),
+                });
 
-    })
+                // 유저정보 db에 저장
+                await db
+                  .collection("user")
+                  .add({ 유저고유아이디: result.user.uid, 찜목록: [] });
 
+                window.location.href = "/mypage.html";
+              });
+              // 그냥 닫기 버튼 누르면,
+              $("#closebtn").on("click", async () => {
+                //계정탈퇴 코드
+                const user = await firebase.auth().currentUser;
+                await user
+                  .delete()
+                  .then(() => {
+                    alert("닉네임을 입력해주셔야 가입이 가능합니다!");
 
+                    window.location.href = "/index.html";
+                  })
+                  .catch((error) => {
+                    alert("error!");
+                  });
+              });
+            } else {
+              //기존 가입자면 패스
+              window.location.href = "/index.html";
+            }
+          })
+          .catch((error) => {});
+      });
 
+      // 로그아웃
+      $("#logout").on("click", () => {
+        firebase
+          .auth()
+          .signOut()
+          .then(() => {
+            alert("로그아웃 되었습니다");
+            window.location.href = "/index.html";
+          })
+          .catch((error) => {});
+      });
+      //
+      //
+      //
 
-    // 카드
+      let scrollValue;
 
-    db.collection("product")
-      .orderBy("정보.날짜", "desc")
-      .get()
-      .then((list) => {
-        list.forEach((doc) => {
-          // 상품 누르고나서 뒤로가기 눌렀을때 페이지 스크롤 유지되게 해야함.
-          // 상품 누르는 순간 -> 현재 스크롤 좌표를 쿠키에 삽입 -> 뒤로가기 누르면 맨위 onAuthStateChanged 안에 작성 
-          //-> 이동하고나면 바로 아랫줄에 쿠키에 있는 스크롤좌표를 삭제
+      // 스크롤위치 가져오는 함수
+      $(window).scroll(function () {
+        scrollValue = $(document).scrollTop();
+        // console.log(scrollValue);
+      });
 
-          let card = `<div class="col">
+      //동적으로 생성된 태그는 이벤트가 안먹히기때문에
+      //먹히게 하려면 이렇게 작성해야한다
+      $(document).on("click", "#thisiscard", function (e) {
+        // 현재누른카드의 고유아이디
+        // console.log(e.currentTarget.dataset.id);
+        // 쿠키에 좌표 넣음
+        Cookies.set("scroll", scrollValue);
+        window.location.href = `/detail.html?id=${e.currentTarget.dataset.id}`;
+      });
+
+      // 카드
+
+      db.collection("product")
+        .orderBy("정보.날짜", "desc")
+        .get()
+        .then((list) => {
+          list.forEach((doc) => {
+            // 상품 누르고나서 뒤로가기 눌렀을때 페이지 스크롤 유지되게 해야함.
+            // 상품 누르는 순간 -> 현재 스크롤 좌표를 쿠키에 삽입 -> 뒤로가기 누르면 맨위 onAuthStateChanged 안에 작성
+            //-> 이동하고나면 바로 아랫줄에 쿠키에 있는 스크롤좌표를 삭제
+
+            let card = `<div class="col">
                   
-            <div data-id="${doc.id}" class="card h-100" id="thisiscard" style="cursor:pointer;" >
-               <img width="200" height="200" style="object-fit: cover; " src="${doc.data().정보.이미지}" class="card-img-top" alt="중고 피규어">
+            <div data-id="${
+              doc.id
+            }" class="card h-100" id="thisiscard" style="cursor:pointer;" >
+               <img width="200" height="200" style="object-fit: cover; " src="${
+                 doc.data().정보.이미지
+               }" class="card-img-top" alt="중고 피규어">
                
               <div class="card-body pb-0" >
                 <p class="fw-bolder card-title" style="font-size:14px; overflow:hidden; text-overflow:ellipsis; word-wrap:break-word;
@@ -410,10 +457,9 @@
            
           </div>`;
 
-          $(".card-area").append(card);
+            $(".card-area").append(card);
+          });
         });
-      });
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

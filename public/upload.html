@@ -1,138 +1,211 @@
 <!-- 중고 피규어 거래 플랫폼 Nendoroo!-->
 <!DOCTYPE html>
 <html lang="ko">
-
-<head>
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
     <style>
-        * {
-            box-sizing: border-box;
+      * {
+        box-sizing: border-box;
+      }
 
-        }
+      #uploadbtn:hover {
+        background-color: bisque;
+      }
 
-        #uploadbtn:hover {
-            background-color: bisque;
+      #mypagebtn:hover {
+        background-color: bisque;
+      }
 
-        }
+      #logoutbtn:hover {
+        background-color: bisque;
+      }
 
-        #mypagebtn:hover {
-            background-color: bisque;
-
-        }
-
-        #logoutbtn:hover {
-            background-color: bisque;
-
-        }
-
-        .loginbtn:hover {
-            background-color: bisque;
-
-        }
+      .loginbtn:hover {
+        background-color: bisque;
+      }
     </style>
 
     <title>넨도루 | 중고 피규어 거래소</title>
-</head>
+  </head>
 
-<body class="mx-auto">
+  <body class="mx-auto">
     <nav class="mx-auto w-75 navbar navbar-expand-xxl navbar-light light mb-2">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/index.html"><img src="img/Nendoroo (250 × 100px).svg" alt="" srcset="" /></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/index.html"
+          ><img src="img/Nendoroo (250 × 100px).svg" alt="" srcset=""
+        /></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse my-4" id="navbarSupportedContent">
+          <form class="d-flex mx-auto" style="height: 3rem">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="검색"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-secondary" type="submit">
+              Search
             </button>
-            <div class="collapse navbar-collapse my-4" id="navbarSupportedContent">
-                <form class="d-flex mx-auto" style="height: 3rem">
-                    <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search" />
-                    <button class="btn btn-outline-secondary" type="submit">
-                        Search
-                    </button>
-                </form>
-                <ul class="w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
-                    <li id="uploadbtn" class="nav-item">
-                        <a style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
-                            class="nav-link">판매하기</a>
-                    </li>
-                    <li id="mypagebtn" class="nav-item">
-                        <a style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
-                            class="nav-link">마이페이지</a>
-                    </li>
-                    <!-- 평소에는 안보이고 있음 -->
-                    <li id="logout" style="display: none" class="nav-item">
-                        <a id="logoutbtn" style="
+          </form>
+          <ul class="w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
+            <li id="uploadbtn" class="nav-item">
+              <a
+                style="
                   cursor: pointer;
                   font-size: larger;
                   font-weight: bolder;
                   color: black;
-                " class="nav-link">로그아웃</a>
+                "
+                class="nav-link"
+                >판매하기</a
+              >
+            </li>
+            <li id="mypagebtn" class="nav-item">
+              <a
+                style="
+                  cursor: pointer;
+                  font-size: larger;
+                  font-weight: bolder;
+                  color: black;
+                "
+                class="nav-link"
+                >마이페이지</a
+              >
+            </li>
+            <!-- 평소에는 안보이고 있음 -->
+            <li id="logout" style="display: none" class="nav-item">
+              <a
+                id="logoutbtn"
+                style="
+                  cursor: pointer;
+                  font-size: larger;
+                  font-weight: bolder;
+                  color: black;
+                "
+                class="nav-link"
+                >로그아웃</a
+              >
+            </li>
+
+            <ul id="logindrop" class="navbar-nav">
+              <li class="nav-item dropdown">
+                <a
+                  style="font-weight: bolder; color: black; font-size: larger"
+                  class="loginbtn nav-link dropdown-toggle"
+                  id="navbarDarkDropdownMenuLink"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  로그인
+                </a>
+                <ul
+                  class="p-3 dropdown-menu dropdown-menu-dark"
+                  aria-labelledby="navbarDarkDropdownMenuLink"
+                >
+                  <div class="d-flex flex-column align-items-center">
+                    <li class="m-3">
+                      <a
+                        id="google"
+                        class="rounded-pill border border-2 dropdown-item p-3"
+                        style="cursor: pointer; display: inline"
+                        ><img
+                          style="margin-right: 1rem"
+                          width="25"
+                          height="25"
+                          src="img/google.svg"
+                          alt=""
+                        />구글 로그인</a
+                      >
                     </li>
 
-                    <ul id="logindrop" class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a style="font-weight: bolder; color: black; font-size: larger"
-                                class="loginbtn nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                로그인
-                            </a>
-                            <ul class="p-3 dropdown-menu dropdown-menu-dark"
-                                aria-labelledby="navbarDarkDropdownMenuLink">
-                                <div class="d-flex flex-column align-items-center">
-                                    <li class="m-3">
-                                        <a id="google" class="rounded-pill border border-2 dropdown-item p-3"
-                                            style="cursor: pointer; display: inline"><img style="margin-right: 1rem"
-                                                width="25" height="25" src="img/google.svg" alt="" />구글 로그인</a>
-                                    </li>
-
-                                    <p class="pt-3">
-                                        현재 브라우저에 로그인 되어있는 구글 계정과 연동하게
-                                        됩니다.
-                                    </p>
-                                </div>
-                            </ul>
-                        </li>
-                    </ul>
+                    <p class="pt-3">
+                      현재 브라우저에 로그인 되어있는 구글 계정과 연동하게
+                      됩니다.
+                    </p>
+                  </div>
                 </ul>
-            </div>
+              </li>
+            </ul>
+          </ul>
         </div>
+      </div>
     </nav>
     <div style="background-color: #f9f9f9">
+      <form class="container py-5">
+        <p class="fw-bolder fs-3">중고 피규어 업로드</p>
+        <p style="color: orangered">
+          피규어가 아닌 물품을 등록 시, 삭제 조치 됩니다.
+        </p>
 
-        <form class="container py-5">
+        <input
+          required
+          class="py-3 form-control mt-2"
+          type="file"
+          id="image"
+          accept="image/*"
+        />
 
-            <p class="fw-bolder fs-3">중고 피규어 업로드</p>
-            <p style="color: orangered;">피규어가 아닌 물품을 등록 시, 삭제 조치 됩니다.</p>
+        <input
+          required
+          type="text"
+          class="py-3 form-control mt-2"
+          id="title"
+          placeholder="제목"
+        />
 
-            <input required class="py-3 form-control mt-2" type="file" id="image" accept="image/*">
+        <textarea
+          required
+          class="py-5 form-control mt-2"
+          id="content"
+          placeholder="내용"
+        ></textarea>
 
-            <input required type="text" class="py-3 form-control mt-2" id="title" placeholder="제목">
+        <input
+          required
+          type="number"
+          min="0"
+          class="py-3 form-control mt-2"
+          id="price"
+          placeholder="가격(원)"
+        />
 
-            <textarea required class="py-5 form-control mt-2" id="content" placeholder="내용"></textarea>
-
-            <input required type="number" min="0" class="py-3 form-control mt-2" id="price" placeholder="가격(원)">
-
-
-            <button class="btn btn-danger mt-3" id="send">업로드</button>
-
-
-        </form>
-
+        <button class="btn btn-danger mt-3" id="send">업로드</button>
+      </form>
     </div>
 
     <!-- 제이쿼리 -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
     <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
@@ -141,195 +214,148 @@
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-storage.js"></script>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBWX9DpbEhu3ZM9qsFuMwUgPDCODl5j3KI",
-            authDomain: "nendoroo.firebaseapp.com",
-            projectId: "nendoroo",
-            storageBucket: "nendoroo.appspot.com",
-            messagingSenderId: "544914137707",
-            appId: "1:544914137707:web:32991f1ab2f60c87f6072e",
-            measurementId: "G-NL1MPPR95L",
-        };
-        firebase.initializeApp(firebaseConfig);
+      const firebaseConfig = {
+        apiKey: "AIzaSyBWX9DpbEhu3ZM9qsFuMwUgPDCODl5j3KI",
+        authDomain: "nendoroo.firebaseapp.com",
+        projectId: "nendoroo",
+        storageBucket: "nendoroo.appspot.com",
+        messagingSenderId: "544914137707",
+        appId: "1:544914137707:web:32991f1ab2f60c87f6072e",
+        measurementId: "G-NL1MPPR95L",
+      };
+      firebase.initializeApp(firebaseConfig);
     </script>
 
     <!-- 로딩스피너 플러그인 -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
-
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
     <script>
+      // 천자리수 콤마 함수
+      function priceToString(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
 
-        // 천자리수 콤마 함수
-        // function priceToString(price) {
-        //     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        // }
+      const db = firebase.firestore();
 
-        const db = firebase.firestore();
+      const storage = firebase.storage();
 
-        const storage = firebase.storage();
+      // 만약 로그인되어있으면, 로그아웃버튼 유지하는 로직
 
-
-
-        // 만약 로그인되어있으면, 로그아웃버튼 유지하는 로직
-
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // 로그인이 되었으니까,
+          // 로그인버튼 안보이게하고
+          $("#logindrop").hide();
+          // 로그아웃버튼 보여주기
+          $("#logout").show();
+          // var uid = user.uid;
+        } else {
+        }
+      });
+      //
+      // 판매하기 버튼  클릭시, 로그인했는지 검사
+      $("#uploadbtn").on("click", () => {
         firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
+          if (user) {
+            //로그인되어있으면 업로드페이지로 이동
+            window.location.href = "/upload.html";
+          } else {
+            alert("로그인이 필요합니다");
+            // window.location.href = "/index.html";
+          }
+        });
+      });
 
-                // 로그인이 되었으니까,
-                // 로그인버튼 안보이게하고
-                $('#logindrop').hide();
-                // 로그아웃버튼 보여주기
-                $('#logout').show();
-                // var uid = user.uid;
+      //마이페이지 버튼  클릭시, 로그인했는지 검사
+      $("#mypagebtn").on("click", () => {
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            //로그인되어있으면 업로드페이지로 이동
+            window.location.href = "/mypage.html";
+          } else {
+            alert("로그인이 필요합니다");
+            // window.location.href = "/index.html";
+          }
+        });
+      });
 
-            } else {
+      let provider = new firebase.auth.GoogleAuthProvider();
 
+      // 로그아웃
+      $("#logout").on("click", () => {
+        firebase
+          .auth()
+          .signOut()
+          .then(() => {
+            alert("로그아웃 되었습니다");
 
+            window.location.href = "/index.html";
+          })
+          .catch((error) => {});
+      });
+
+      // 업로드 버튼 클릭시
+      $("#send").on("click", (e) => {
+        let image = $("#image").val();
+        let title = $("#title").val();
+        let content = $("#content").val();
+        let price = $("#price").val();
+
+        if (image != "" && title != "" && content != "" && price != "") {
+          // 새로고침되지 않게 막음.
+          e.preventDefault();
+          //
+          // 로딩스피너
+          $.LoadingOverlay("show");
+
+          var file = document.querySelector("#image").files[0];
+          var storageRef = storage.ref();
+          var 저장할경로 = storageRef.child(
+            "image/" + new Date().getTime() + file.name
+          );
+          var 업로드작업 = 저장할경로.put(file);
+
+          업로드작업.on(
+            "state_changed",
+            // 변화시 동작하는 함수
+            null,
+            //에러시 동작하는 함수
+            (error) => {
+              console.error("실패사유는", error);
+            },
+            // 성공시 동작하는 함수
+            () => {
+              업로드작업.snapshot.ref.getDownloadURL().then((url) => {
+                firebase.auth().onAuthStateChanged((user) => {
+                  if (user) {
+                    let 정보 = {
+                      업로더닉네임: user.displayName,
+                      업로더고유아이디: user.uid,
+                      제목: $("#title").val(),
+                      내용: $("#content").val(),
+                      가격: priceToString($("#price").val()),
+                      날짜: new Date().toLocaleString(),
+                      이미지: url,
+                    };
+                    db.collection("product")
+                      .add({ 정보, 찜한사람들: [] })
+                      .then(async (result) => {
+                        await alert(
+                          "업로드가 완료되었습니다! 마이페이지로 이동합니다."
+                        );
+                        // 마이페이지로 이동
+                        window.location.href = "/mypage.html";
+                      });
+                  } else {
+                  }
+                });
+              });
             }
-        });
-        //
-        // 판매하기 버튼  클릭시, 로그인했는지 검사
-        $("#uploadbtn").on("click", () => {
-            firebase.auth().onAuthStateChanged((user) => {
-                if (user) {
-                    //로그인되어있으면 업로드페이지로 이동
-                    window.location.href = "/upload.html";
-                } else {
-                    alert("로그인이 필요합니다");
-                    // window.location.href = "/index.html";
-                }
-            });
-        });
-
-        //마이페이지 버튼  클릭시, 로그인했는지 검사
-        $("#mypagebtn").on("click", () => {
-            firebase.auth().onAuthStateChanged((user) => {
-                if (user) {
-                    //로그인되어있으면 업로드페이지로 이동
-                    window.location.href = "/mypage.html";
-                } else {
-                    alert("로그인이 필요합니다");
-                    // window.location.href = "/index.html";
-                }
-            });
-        });
-
-
-        let provider = new firebase.auth.GoogleAuthProvider();
-
-
-
-        // 로그아웃
-        $("#logout").on("click", () => {
-
-
-
-            firebase.auth().signOut().then(() => {
-                alert("로그아웃 되었습니다");
-
-                window.location.href = "/index.html";
-            }).catch((error) => {
-
-            });
-        });
-
-
-
-
-
-        // 업로드 버튼 클릭시
-        $("#send").on("click", (e) => {
-
-
-            let image = $("#image").val();
-            let title = $("#title").val();
-            let content = $("#content").val();
-            let price = $("#price").val();
-
-            if (image != "" && title != "" && content != "" && price != "") {
-
-                // 새로고침되지 않게 막음.
-                e.preventDefault();
-                //
-                // 로딩스피너
-                $.LoadingOverlay("show");
-
-
-
-
-                var file = document.querySelector("#image").files[0];
-                var storageRef = storage.ref();
-                var 저장할경로 = storageRef.child('image/' + new Date().getTime() + file.name);
-                var 업로드작업 = 저장할경로.put(file);
-
-                업로드작업.on('state_changed',
-                    // 변화시 동작하는 함수 
-                    null,
-                    //에러시 동작하는 함수
-                    (error) => {
-                        console.error('실패사유는', error);
-                    },
-                    // 성공시 동작하는 함수
-                    () => {
-                        업로드작업.snapshot.ref.getDownloadURL().then((url) => {
-
-
-                            firebase.auth().onAuthStateChanged((user) => {
-                                if (user) {
-
-
-                                    let 정보 = {
-
-                                        업로더닉네임: user.displayName,
-                                        업로더고유아이디: user.uid,
-                                        제목: $("#title").val(),
-                                        내용: $("#content").val(),
-                                        가격: priceToString($("#price").val()),
-                                        날짜: new Date().toLocaleString(),
-                                        이미지: url,
-
-                                    };
-                                    db.collection("product").add({ 정보, 찜한사람들: [] }).then(async (result) => {
-                                        await alert("업로드가 완료되었습니다! 마이페이지로 이동합니다.");
-                                        // 마이페이지로 이동
-                                        window.location.href = "/mypage.html";
-
-                                    });
-                                } else {
-
-
-                                }
-                            });
-
-
-
-                        });
-                    }
-                );
-            } else {
-                alert("모든 항목을 채우셔야 합니다")
-
-            }
-
-
-
-
-
-
-
-
-
-
-
-        })
-
-
-
+          );
+        } else {
+          alert("모든 항목을 채우셔야 합니다");
+        }
+      });
     </script>
-</body>
-
+  </body>
 </html>

@@ -305,6 +305,21 @@
         window.location.href = `/detail.html?id=${e.currentTarget.dataset.id}`;
       });
 
+      // 찜 클릭
+      $(document).on("click", ".jjim", function (e) {
+        // window.location.href = `/detail.html?id=${e.currentTarget.dataset.id}`;
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            // 로그인한 유저라면
+            if (condition) {
+            } else {
+            }
+          } else {
+            alert("로그인 시 이용 가능합니다");
+          }
+        });
+      });
+
       //쿼리스트링에 써있는 아이디와 일치하는 문서를 db에서 꺼내온다
       let 쿼리스트링 = new URLSearchParams(window.location.search); //-> 오브젝트로 반환
 
@@ -343,17 +358,18 @@
             </div>
 
             <p>${result.data().정보.제목}</p>
-            <p>${result.data().정보.가격}</p>
+            <p>${result.data().정보.가격} 원</p>
             <p>
               ${result.data().정보.내용}
             </p>
             <p>등록날짜 : ${result.data().정보.날짜}</p>
             <div class="d-grid gap-2 d-md-block">
-              <button class="btn btn-lg btn-outline-secondary me-md-2" type="button">
+              <button class="jjim btn btn-lg btn-outline-secondary me-md-2" type="button">
                 <i class="far fa-star"></i> 찜 ${
                   result.data().정보.찜한사람들.length
                 }
               </button>
+             
               <button class="btn btn-lg btn-danger me-md-2" type="button">
                 안전 구매
               </button>

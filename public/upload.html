@@ -302,10 +302,9 @@
                                         가격: priceToString($("#price").val()),
                                         날짜: new Date().toLocaleString(),
                                         이미지: url,
-                                        찜한사람들: [],
 
                                     };
-                                    db.collection("product").add({ 정보 }).then(async (result) => {
+                                    db.collection("product").add({ 정보, 찜한사람들: [] }).then(async (result) => {
                                         await alert("업로드가 완료되었습니다! 마이페이지로 이동합니다.");
                                         // 마이페이지로 이동
                                         window.location.href = "/mypage.html";

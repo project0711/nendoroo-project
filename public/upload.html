@@ -57,44 +57,48 @@
                     </button>
                 </form>
                 <ul class="w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
-
                     <li id="uploadbtn" class="nav-item">
-                        <a style=" font-size: larger; font-weight: bolder; color: black" class=" nav-link"
-                            href="#">판매하기</a>
+                        <a style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
+                            class="nav-link">판매하기</a>
                     </li>
                     <li id="mypagebtn" class="nav-item">
-                        <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link"
-                            href="#">마이페이지</a>
+                        <a style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
+                            class="nav-link">마이페이지</a>
                     </li>
                     <!-- 평소에는 안보이고 있음 -->
-                    <li id="logout" style="display: none;" class="nav-item">
-                        <a id="logoutbtn" style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
-                            class="nav-link">로그아웃</a>
+                    <li id="logout" style="display: none" class="nav-item">
+                        <a id="logoutbtn" style="
+                  cursor: pointer;
+                  font-size: larger;
+                  font-weight: bolder;
+                  color: black;
+                " class="nav-link">로그아웃</a>
                     </li>
-
 
                     <ul id="logindrop" class="navbar-nav">
                         <li class="nav-item dropdown">
-                            <a style="font-weight: bolder; color: black; font-size: larger;"
-                                class="loginbtn nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a style="font-weight: bolder; color: black; font-size: larger"
+                                class="loginbtn nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 로그인
                             </a>
-                            <ul class=" p-3 dropdown-menu dropdown-menu-dark"
+                            <ul class="p-3 dropdown-menu dropdown-menu-dark"
                                 aria-labelledby="navbarDarkDropdownMenuLink">
-                                <div class="d-flex flex-column  align-items-center">
-                                    <li class=" m-3"><a id="google"
-                                            class="rounded-pill border border-2 dropdown-item p-3" href="#"
-                                            style="display: inline;"><img style="margin-right: 1rem" width="25"
-                                                height="25" src="img/google.svg" alt="">구글 로그인</a></li>
+                                <div class="d-flex flex-column align-items-center">
+                                    <li class="m-3">
+                                        <a id="google" class="rounded-pill border border-2 dropdown-item p-3"
+                                            style="cursor: pointer; display: inline"><img style="margin-right: 1rem"
+                                                width="25" height="25" src="img/google.svg" alt="" />구글 로그인</a>
+                                    </li>
 
-                                    <p class="pt-3">현재 브라우저에 로그인 되어있는 구글 계정과 연동하게 됩니다.</p>
+                                    <p class="pt-3">
+                                        현재 브라우저에 로그인 되어있는 구글 계정과 연동하게
+                                        됩니다.
+                                    </p>
                                 </div>
                             </ul>
                         </li>
                     </ul>
-                </ul>
-
                 </ul>
             </div>
         </div>
@@ -160,9 +164,9 @@
     <script>
 
         // 천자리수 콤마 함수
-        function priceToString(price) {
-            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
+        // function priceToString(price) {
+        //     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        // }
 
         const db = firebase.firestore();
 
@@ -188,51 +192,36 @@
             }
         });
         //
-        // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
+        // 판매하기 버튼  클릭시, 로그인했는지 검사
         $("#uploadbtn").on("click", () => {
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                     //로그인되어있으면 업로드페이지로 이동
                     window.location.href = "/upload.html";
-
                 } else {
-
                     alert("로그인이 필요합니다");
-                    window.location.href = "/index.html";
+                    // window.location.href = "/index.html";
                 }
             });
-        })
-        //
+        });
+
+        //마이페이지 버튼  클릭시, 로그인했는지 검사
         $("#mypagebtn").on("click", () => {
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                     //로그인되어있으면 업로드페이지로 이동
                     window.location.href = "/mypage.html";
-
                 } else {
-
                     alert("로그인이 필요합니다");
-                    window.location.href = "/index.html";
+                    // window.location.href = "/index.html";
                 }
             });
-        })
+        });
 
 
         let provider = new firebase.auth.GoogleAuthProvider();
 
-        // 구글로그인 클릭시
-        $("#google").on("click", () => {
-            firebase.auth()
-                .signInWithPopup(provider)
-                .then((result) => {
 
-                    window.location.href = "/index.html";
-
-
-                }).catch((error) => {
-
-                });
-        });
 
         // 로그아웃
         $("#logout").on("click", () => {

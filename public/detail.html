@@ -93,10 +93,10 @@
         </form>
         <ul class="w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
           <li id="uploadbtn" class="nav-item">
-            <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link" href="#">판매하기</a>
+            <a style="cursor: pointer; font-size: larger; font-weight: bolder; color: black" class="nav-link">판매하기</a>
           </li>
           <li id="mypagebtn" class="nav-item">
-            <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link" href="#">마이페이지</a>
+            <a style="cursor: pointer; font-size: larger; font-weight: bolder; color: black" class="nav-link">마이페이지</a>
           </li>
           <!-- 평소에는 안보이고 있음 -->
           <li id="logout" style="display: none" class="nav-item">
@@ -111,14 +111,14 @@
           <ul id="logindrop" class="navbar-nav">
             <li class="nav-item dropdown">
               <a style="font-weight: bolder; color: black; font-size: larger" class="loginbtn nav-link dropdown-toggle"
-                href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 로그인
               </a>
               <ul class="p-3 dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                 <div class="d-flex flex-column align-items-center">
                   <li class="m-3">
-                    <a id="google" class="rounded-pill border border-2 dropdown-item p-3" href="#"
-                      style="display: inline"><img style="margin-right: 1rem" width="25" height="25"
+                    <a id="google" class="rounded-pill border border-2 dropdown-item p-3"
+                      style="cursor: pointer; display: inline"><img style="margin-right: 1rem" width="25" height="25"
                         src="img/google.svg" alt="" />구글 로그인</a>
                   </li>
 
@@ -198,7 +198,7 @@
 
     //쿼리스트링에 써있는 아이디와 일치하는 문서를 db에서 꺼내온다
     let 쿼리스트링 = new URLSearchParams(window.location.search); //-> 오브젝트로 반환
-
+    let queryId = 쿼리스트링.get("id");
 
     //페이지 들어오자마자 검사한다. 로그인되어있다면, 로그아웃버튼 유지하는 로직
     firebase.auth().onAuthStateChanged(async (user) => {
@@ -420,7 +420,7 @@
     //
     //
 
-    // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
+    // 판매하기  버튼  클릭시, 로그인했는지 검사
     $("#uploadbtn").on("click", () => {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
@@ -428,11 +428,12 @@
           window.location.href = "/upload.html";
         } else {
           alert("로그인이 필요합니다");
-          window.location.href = "/index.html";
+          // window.location.href = `/detail.html?id=${queryId}`;
         }
       });
     });
-    //
+
+    //마이페이지 버튼  클릭시, 로그인했는지 검사
     $("#mypagebtn").on("click", () => {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
@@ -440,7 +441,7 @@
           window.location.href = "/mypage.html";
         } else {
           alert("로그인이 필요합니다");
-          window.location.href = "/index.html";
+          // window.location.href = `/detail.html?id=${queryId}`;
         }
       });
     });
@@ -473,17 +474,19 @@
               await db
                 .collection("user")
                 .add({ 유저고유아이디: result.user.uid, 찜목록: [] });
-              window.location.href = "/mypage.html";
+              window.location.href = `/detail.html?id=${queryId}`;
+
             });
             // 그냥 닫기 버튼 누르면,
-            $("#closebtn").on("click", async () => {
+            $("#closebtn").on("click", async (e) => {
               //계정탈퇴 코드
               const user = await firebase.auth().currentUser;
               await user
                 .delete()
                 .then(() => {
                   alert("닉네임을 입력해주셔야 가입이 가능합니다!");
-                  window.location.href = "/index.html";
+                  window.location.href = `/detail.html?id=${queryId}`;
+
                 })
                 .catch((error) => {
                   alert("error!");
@@ -491,20 +494,22 @@
             });
           } else {
             //기존 가입자면 패스
-            window.location.href = "/index.html";
+            window.location.href = `/detail.html?id=${queryId}`;
+
           }
         })
         .catch((error) => { });
     });
 
     // 로그아웃
-    $("#logout").on("click", () => {
+    $("#logout").on("click", (e) => {
       firebase
         .auth()
         .signOut()
         .then(() => {
           alert("로그아웃 되었습니다");
-          window.location.href = "/index.html";
+          window.location.href = `/detail.html?id=${queryId}`;
+
         })
         .catch((error) => { });
     });

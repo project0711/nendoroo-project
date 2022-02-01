@@ -17,22 +17,18 @@
 
         #uploadbtn:hover {
             background-color: bisque;
-
         }
 
         #mypagebtn:hover {
             background-color: bisque;
-
         }
 
         #logoutbtn:hover {
             background-color: bisque;
-
         }
 
         .loginbtn:hover {
             background-color: bisque;
-
         }
     </style>
 
@@ -40,6 +36,42 @@
 </head>
 
 <body class="mx-auto">
+    <!-- 모달 -->
+    <button id="modalpopbtn" style="display: none" type="button" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop">
+        모달버튼
+    </button>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header d-flex flex-column">
+                    <h5 class="modal-title" id="staticBackdropLabel">
+                        신규가입을 환영합니다!
+                    </h5>
+                    <h4>사용하실 닉네임을 입력해주세요.</h4>
+                    <p style="color: red">
+                        한번 설정하시면 변경하실 수 없습니다.<br />변경하시려면, 탈퇴 후
+                        재가입 하셔야 합니다.
+                    </p>
+
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                </div>
+                <div class="modal-body">
+                    <input id="nameinput" type="text" class="form-control" placeholder="닉네임 입력" aria-label="Username" />
+                </div>
+                <div class="modal-footer">
+                    <button id="closebtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        닫기
+                    </button>
+                    <button id="okbtn" type="button" class="btn btn-primary">
+                        완료
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  -->
     <nav class="mx-auto w-75 navbar navbar-expand-xxl navbar-light light mb-2">
         <div class="container-fluid">
             <a class="navbar-brand" href="/index.html"><img src="img/Nendoroo (250 × 100px).svg" alt="" srcset="" /></a>
@@ -55,62 +87,62 @@
                         Search
                     </button>
                 </form>
-                <ul class=" w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
-
+                <ul class="w-50 justify-content-evenly navbar-nav mb-2 mb-lg-0">
                     <li id="uploadbtn" class="nav-item">
-                        <a style=" font-size: larger; font-weight: bolder; color: black" class=" nav-link"
-                            href="#">판매하기</a>
+                        <a style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
+                            class="nav-link">판매하기</a>
                     </li>
                     <li id="mypagebtn" class="nav-item">
-                        <a style="font-size: larger; font-weight: bolder; color: black" class="nav-link"
-                            href="#">마이페이지</a>
+                        <a style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
+                            class="nav-link">마이페이지</a>
                     </li>
                     <!-- 평소에는 안보이고 있음 -->
-                    <li id="logout" style="display: none;" class="nav-item">
-                        <a id="logoutbtn" style="cursor: pointer; font-size: larger; font-weight: bolder; color: black"
-                            class="nav-link">로그아웃</a>
+                    <li id="logout" style="display: none" class="nav-item">
+                        <a id="logoutbtn" style="
+                  cursor: pointer;
+                  font-size: larger;
+                  font-weight: bolder;
+                  color: black;
+                " class="nav-link">로그아웃</a>
                     </li>
-
 
                     <ul id="logindrop" class="navbar-nav">
                         <li class="nav-item dropdown">
-                            <a style="font-weight: bolder; color: black; font-size: larger;"
-                                class="loginbtn nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a style="font-weight: bolder; color: black; font-size: larger"
+                                class="loginbtn nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 로그인
                             </a>
-                            <ul class=" p-3 dropdown-menu dropdown-menu-dark"
+                            <ul class="p-3 dropdown-menu dropdown-menu-dark"
                                 aria-labelledby="navbarDarkDropdownMenuLink">
-                                <div class="d-flex flex-column  align-items-center">
-                                    <li class=" m-3"><a id="google"
-                                            class="rounded-pill border border-2 dropdown-item p-3" href="#"
-                                            style="display: inline;"><img style="margin-right: 1rem" width="25"
-                                                height="25" src="img/google.svg" alt="">구글 로그인</a></li>
+                                <div class="d-flex flex-column align-items-center">
+                                    <li class="m-3">
+                                        <a id="google" class="rounded-pill border border-2 dropdown-item p-3"
+                                            style="cursor: pointer; display: inline"><img style="margin-right: 1rem"
+                                                width="25" height="25" src="img/google.svg" alt="" />구글 로그인</a>
+                                    </li>
 
-                                    <p class="pt-3">현재 브라우저에 로그인 되어있는 구글 계정과 연동하게 됩니다.</p>
+                                    <p class="pt-3">
+                                        현재 브라우저에 로그인 되어있는 구글 계정과 연동하게
+                                        됩니다.
+                                    </p>
                                 </div>
                             </ul>
                         </li>
                     </ul>
-
-
                 </ul>
             </div>
         </div>
     </nav>
     <div style="background-color: #f9f9f9">
         <div class="container p-0">
-            <!-- displayName 삽입 -->
-            <span class="my-2" id="nickname"> </span> <span>님의 마이페이지</span>
+            <!-- 카드 큰 틀-->
+            <div class="card-area row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-2 g-lg-3">
 
-            <div class="my-5">
-                마이페이지입니다. 여기에는 판매 물품 / 구매 물품 / 찜한 물품 이렇게 총 3가지 카테고리가 있습니다
-                그리고, 판매완료된 제품이나, 구매완료된 제품은, 판매완료표시,구매완료표시로 표시됩니다.
-                판매하는 물품의 경우, 업로드한 물품을 삭제 할수있습니다.다만 수정 기능은 혼선을 막기위해 넣지 않습니다.
-
-                제품카드를 누르면 해당 피규어의 디테일 페이지 ( 즉, 구매자들도 볼수있는 그 페이지 ) 로 이동함.
+                <!-- 여기가 본문이니까 여기에 코드 작성! -->
+                <h1>마이페이지 코드를 작성합시다.</h1>
             </div>
-
+            <!--  -->
         </div>
         <!-- 큰 틀 -->
     </div>
@@ -118,6 +150,9 @@
     <!-- 제이쿼리 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- 제이쿼리 쿠키 -->
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
@@ -150,101 +185,72 @@
 
         const db = firebase.firestore();
 
-
         //페이지 들어오자마자 검사한다. 로그인되어있다면, 로그아웃버튼 유지하는 로직
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-
-
-                // console.log(user.displayName);
-                $("#nickname").text(user.displayName);
-
+                //로그인 상태시
+                // console.log(user.uid);
 
                 // 로그인이 되었으니까,
                 // 로그인버튼 안보이게하고
-                $('#logindrop').hide();
+                $("#logindrop").hide();
                 // 로그아웃버튼 보여주기
-                $('#logout').show();
+                $("#logout").show();
                 // var uid = user.uid;
 
 
             } else {
 
-
             }
         });
+        //
+        //
 
+        // 로그인 여부에 상관없이 작동해야하므로, 쿠키에 저장해야함
 
-
-
-
-
-
-
-        // 판매하기 , 마이페이지 버튼  클릭시, 로그인했는지 검사
+        // 판매하기 버튼  클릭시, 로그인했는지 검사
         $("#uploadbtn").on("click", () => {
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                     //로그인되어있으면 업로드페이지로 이동
                     window.location.href = "/upload.html";
-
                 } else {
-
                     alert("로그인이 필요합니다");
-                    window.location.href = "/index.html";
+                    // window.location.href = "/index.html";
                 }
             });
-        })
+        });
 
-        //마이페이지로 이동버튼
+        //마이페이지 버튼  클릭시, 로그인했는지 검사
         $("#mypagebtn").on("click", () => {
             firebase.auth().onAuthStateChanged((user) => {
                 if (user) {
                     //로그인되어있으면 업로드페이지로 이동
                     window.location.href = "/mypage.html";
-
                 } else {
-
                     alert("로그인이 필요합니다");
-                    window.location.href = "/index.html";
+                    // window.location.href = "/index.html";
                 }
-            });
-        })
-
-        let provider = new firebase.auth.GoogleAuthProvider();
-
-        // 구글로그인 클릭시
-        // $("#google").on("click", () => {
-        //     firebase.auth()
-        //         .signInWithPopup(provider)
-        //         .then((result) => {
-
-
-
-        //             window.location.href = "/index.html";
-
-
-
-        //         }).catch((error) => {
-
-        //         });
-        // });
-
-        $("#logout").on("click", () => {
-
-
-
-            firebase.auth().signOut().then(() => {
-                alert("로그아웃 되었습니다");
-
-                window.location.href = "/index.html";
-            }).catch((error) => {
-
             });
         });
 
+        let provider = new firebase.auth.GoogleAuthProvider();
 
+
+
+        // 로그아웃
+        $("#logout").on("click", () => {
+            firebase
+                .auth()
+                .signOut()
+                .then(() => {
+                    alert("로그아웃 되었습니다");
+                    window.location.href = "/index.html";
+                })
+                .catch((error) => { });
+        });
+        //
 
 
     </script>

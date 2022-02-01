@@ -298,20 +298,33 @@
       });
       //
 
+      //하단부분 카드들 선택시 동작
+      //동적으로 생성된 태그는 이벤트가 안먹히기때문에
+      //먹히게 하려면 이렇게 작성해야한다
+      $(document).on("click", "#thisiscard", function (e) {
+        window.location.href = `/detail.html?id=${e.currentTarget.dataset.id}`;
+      });
+
       //쿼리스트링에 써있는 아이디와 일치하는 문서를 db에서 꺼내온다
       let 쿼리스트링 = new URLSearchParams(window.location.search); //-> 오브젝트로 반환
+
+      //해당 상품의 제품이 가지고 있는 고유아이디를 추출해서
+      //하단의 상품에 적용
+      let itemUid;
 
       db.collection("product")
         .doc(쿼리스트링.get("id"))
         .get()
-        .then((result) => {
+        .then(async (result) => {
           // console.log(result.data());
           // 동적으로 태그 화면생성하자
 
+          itemUid = await result.data().정보.업로더고유아이디;
+
           let info = `
         <!-- 상단부분  -->
-        <div class="row">
-          <div class="col-12 col-lg-7 col-xl-6">
+        <div class="row" >
+          <div class="col-12 col-lg-7 col-xl-6" >
             <img
               width="100%"
               style="object-fit: contain"
@@ -321,7 +334,8 @@
             />
           </div>
           <div
-            class="col-12 col-lg-5 col-xl-6 d-flex flex-column justify-content-around p-3"
+          
+            class="fw-bolder col-12 col-lg-5 col-xl-6 d-flex flex-column justify-content-around p-3"
           >
             <div>
               <span>업로더 : </span>
@@ -347,15 +361,15 @@
           </div>
         </div>`;
           $("#detailInfo").append(info);
-        });
 
-      //하단부분
-      db.collection("product")
-        .orderBy("정보.날짜", "desc")
-        .get()
-        .then((list) => {
-          list.forEach((result) => {
-            let info = `
+          //하단부분
+          db.collection("product")
+            .where("정보.업로더고유아이디", "==", itemUid)
+            // .orderBy("정보.날짜", "desc")
+            .get()
+            .then((list) => {
+              list.forEach((result) => {
+                let info = `
              <!-- 하단 부분 작성해야함 -->
         <!--( 밑에는 판매자가 팔고있는 다른 피규어들 카드로 나열해줌
             ~~님이 업로드한 상품들  이라고 적고 밑에 카드들 나열, 팔렸던 상품들은
@@ -363,7 +377,7 @@
 
             <div class="col">
                 <div
-
+                  data-id="${result.id}"
                   class="card h-100"
                   id="thisiscard"
                   style="cursor: pointer"
@@ -400,8 +414,9 @@
                 </div>
               </div>
         `;
-            $(".card-area").append(info);
-          });
+                $(".card-area").append(info);
+              });
+            });
         });
 
       //

@@ -275,11 +275,13 @@
 
     let provider = new firebase.auth.GoogleAuthProvider();
 
-    // 구글로그인 클릭시
-    $("#google").on("click", () => {
+
+
+    // 구글로그인 함수
+    function initApp() {
       firebase
         .auth()
-        .signInWithPopup(provider)
+        .getRedirectResult()
         .then(async (result) => {
           // result.additionalUserInfo.isNewUser == true 이면, 신규가입자
           // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
@@ -321,7 +323,15 @@
           }
         })
         .catch((error) => { });
-    });
+    };
+
+    // 구글버튼 클릭시
+    $("#google").on("click", () => { firebase.auth().signInWithRedirect(provider); });
+
+    //구글 로그인 리디렉션 로직 실행
+    window.onload = function () {
+      initApp();
+    };
 
     // 로그아웃
     $("#logout").on("click", () => {

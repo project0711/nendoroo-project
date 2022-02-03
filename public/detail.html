@@ -154,7 +154,7 @@
   <!-- 상세페이지 시작 -->
   <div style="background-color: #f9f9f9">
     <!-- 상단부분 -->
-    <div id="detailInfo" class="container">
+    <div id="detailInfo" class="container ">
       <!-- 번개장터 상세페이지처럼 똑같이 제작!!!! -->
 
       <!--  -->
@@ -164,7 +164,7 @@
       <!-- 번개장터 상세페이지처럼 똑같이 제작!!!! -->
       <div style="background-color: #f9f9f9">
         <div class="container p-0">
-          <h5 class="mt-5 mb-4">현재 업로더의 판매중인 모든 상품들</h5>
+          <h5 class="fw-bolder mt-5 mb-4">현재 업로더의 상품들</h5>
           <!-- 카드 큰 틀-->
           <div class="card-area row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-2 g-lg-3"></div>
           <!--  -->
@@ -338,8 +338,12 @@
 
         let info = `
         <!-- 상단부분  -->
+       
         <div class="row pt-4" >
-          <div class="col-12 col-md-7 " >
+
+           <div class="col-12   col-lg-1"></div>
+
+          <div class="col-12   col-lg-5" >
             <img
               width="100%"
               style="object-fit: fill"
@@ -348,21 +352,22 @@
               srcset=""
             />
           </div>
+          
           <div
           
-            class="fw-bolder col-12 col-md-5  d-flex flex-column justify-content-around p-3"
+            class="fw-bolder col-12    col-lg-5  d-flex flex-column justify-content-around p-3"
           >
-            <div>
+            <div class="pb-3">
               <span>업로더 : </span>
               <span>${result.data().정보.업로더닉네임}</span>
             </div>
 
-            <p>${result.data().정보.제목}</p>
-            <p>${result.data().정보.가격} 원</p>
-            <p>
+            <p class="py-3 fs-5">${result.data().정보.제목}</p>
+            <p><span class="fs-2">${result.data().정보.가격}</span><span  style="font-size: 1.4rem"> 원</span></p>
+            <p class="py-3">
               ${result.data().정보.내용}
             </p>
-            <p>등록날짜 : ${result.data().정보.날짜}</p>
+            <p >등록날짜 : ${result.data().정보.날짜}</p>
             <div class="d-grid gap-2 d-md-block">
              
               <button class="jjim btn btn-lg btn-secondary me-md-2" type="button">
@@ -370,11 +375,18 @@
           }
               </button>
             
-              <button class="btn btn-lg btn-danger me-md-2" type="button">
+              <button class="my-3 btn btn-lg btn-danger me-md-2" type="button">
                 안전 구매
               </button>
             </div>
           </div>
+
+          
+          <div class="col-12   col-lg-1  p-0">
+            <h3>번개장터처럼 옆쪽의 찜한 목록 바 만들기</h3>
+          </div>
+
+
         </div>`;
         $("#detailInfo").append(info);
 

@@ -264,9 +264,9 @@
 
               // append시키기
               $("#hereAppend1").append(`
-              <a href="/detail.html?id=${eachItemQueryId}">
-              <img style="height:80px; width:80px; object-fit: cover;"  src="${result.data().정보.이미지}" class="img-thumbnail img-fluid" alt="">
-              </a>
+              
+              <img onclick=window.open("/detail.html?id=${eachItemQueryId}","_self") style="height:130px; width:130px; object-fit: cover;"  src="${result.data().정보.이미지}" class="img-thumbnail img-fluid" alt="">
+             
               `);
 
 
@@ -424,7 +424,7 @@
           
           <div
           
-            class="fw-bolder col-12    col-md-4  d-flex flex-column justify-content-around p-3"
+            class="fw-bolder col-12    col-md-3  d-flex flex-column justify-content-around p-3"
           >
             <div >
               <span>업로더 : </span>
@@ -457,15 +457,15 @@
 
           <div class=" d-flex flex-md-column col-12  col-md-1  p-0">
             
-                <p class="fw-bold  p-3 p-md-0" >찜한<br/>상품</p>
+                <p style="text-align:center; color:royalblue" class="fw-bold" >찜한 상품</p>
                 
                 <div  id="hereAppend1">
                   
                   </div>
                
                       <!--더 보기 버튼 -->
-                      <button id="morebtn" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        more
+                      <button id="morebtn" type="button" class="btn btn-secondary  btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        더보기
                       </button>
           
                   <!-- 모달창 -->
@@ -473,7 +473,7 @@
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="fw-bolder modal-title" id="exampleModalLabel">찜한 상품 (클릭 시 이동)</h5>
+                          <h5  class=" fw-bolder modal-title" id="exampleModalLabel">찜한 상품 (클릭 시 이동)</h5>
                           <button id="recycle1" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -526,9 +526,10 @@
                     // append시키기
                     $("#hereAppend2").append(
                       `
-                    <a href="/detail.html?id=${eachItemQueryId}">
-                    <img  style="object-fit: cover; cursor:pointer;"  src="${result.data().정보.이미지}" class="col-6 col-md-4"  alt="...">
-                    </a>
+                   
+                    <img onclick=window.open("/detail.html?id=${eachItemQueryId}","_self")  style="object-fit: cover; cursor:pointer;"  src="${result.data().정보.이미지}" class="col-6 col-md-4"  alt="..."> 
+                 
+                   
                     `);
 
 

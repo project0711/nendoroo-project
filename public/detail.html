@@ -675,7 +675,7 @@
                 displayName: $("#nameinput").val(),
               });
 
-              window.location.href = "/index.html";
+              window.location.href = `/detail.html?id=${queryId}`;
             });
 
 
@@ -688,7 +688,7 @@
                 .then(() => {
                   alert("닉네임을 입력해주셔야 가입이 가능합니다!");
 
-                  window.location.href = "/index.html";
+                  window.location.href = `/detail.html?id=${queryId}`;
                 })
                 .catch((error) => {
 
@@ -698,7 +698,7 @@
           } else {
 
             //기존 가입자면 패스
-            window.location.href = "/index.html";
+            window.location.href = `/detail.html?id=${queryId}`;
           }
         }).catch((error) => {
 

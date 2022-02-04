@@ -79,7 +79,7 @@
     </div>
   </div>
   <!--  -->
-  <nav class="mx-auto w-75 navbar navbar-expand-xxl navbar-light light mb-2">
+  <nav id="thisisnav" class="mx-auto w-75 navbar navbar-expand-xxl navbar-light light mb-2">
     <div class="container-fluid">
       <a class="navbar-brand" href="/index.html"><img src="img/Nendoroo (250 × 100px).svg" alt="" srcset="" /></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -97,6 +97,7 @@
           <li id="uploadbtn" class="nav-item">
 
             <a style="
+
                   cursor: pointer;
                   font-size: larger;
                   font-weight: bolder;
@@ -234,6 +235,10 @@
     firebase.initializeApp(firebaseConfig);
   </script>
 
+  <!-- 로딩스피너 플러그인 -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
   <script>
     // 천자리수 콤마 함수
     // function priceToString(price) {
@@ -327,18 +332,26 @@
 
     // 구글로그인 함수
     function initApp() {
+
       firebase
         .auth()
         .getRedirectResult()
         .then(async (result) => {
+
+
           // result.additionalUserInfo.isNewUser == true 이면, 신규가입자
           // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
-
           if (result.additionalUserInfo.isNewUser) {
+
+
+
             // 신규유저라면, 모달창 닉네임 입력창 띄워짐
             $("#modalpopbtn").trigger("click");
+
+
             // 다 입력하고 완료 버튼 누르면,
             $("#okbtn").on("click", async () => {
+
               // 이 닉네임이 마이페이지에 뜨게됨
               await result.user.updateProfile({
                 displayName: $("#nameinput").val(),
@@ -347,7 +360,10 @@
               // 유저정보 db에 저장
               await db
                 .collection("user")
-                .add({ 유저고유아이디: result.user.uid, 찜목록: [] });
+                .doc(result.user.uid).set({ 찜목록: [] })
+              // 문서아이디가 유저고유아이디임
+
+
 
               window.location.href = "/mypage.html";
             });
@@ -359,13 +375,16 @@
                 .delete()
                 .then(() => {
                   alert("닉네임을 입력해주셔야 가입이 가능합니다!");
+
                   window.location.href = "/index.html";
                 })
                 .catch((error) => {
+
                   alert("error!");
                 });
             });
           } else {
+
             //기존 가입자면 패스
             window.location.href = "/index.html";
           }
@@ -374,11 +393,17 @@
     };
 
     // 구글버튼 클릭시
-    $("#google").on("click", () => { firebase.auth().signInWithRedirect(provider); });
+    $("#google").on("click", () => {
+
+      firebase.auth().signInWithRedirect(provider);
+
+    });
 
     //구글 로그인 리디렉션 로직 실행
     window.onload = function () {
       initApp();
+
+
     };
 
     // 로그아웃

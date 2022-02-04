@@ -252,6 +252,31 @@
               $(".fa-star").attr("class", "far fa-star");
             }
           });
+
+
+        // 찜한 상품 미리보기
+        userUid = user.uid;
+        await db.collection("user").doc(userUid).get().then(async (result) => {
+          let 찜 = await result.data().찜목록;
+          let 자른찜목록 = await 찜.slice(0, 4);
+          자른찜목록.forEach(async (eachItemQueryId) => {
+            await db.collection("product").doc(eachItemQueryId).get().then(async (result) => {
+
+              // append시키기
+              $("#hereAppend1").append(`
+              <a href="/detail.html?id=${eachItemQueryId}">
+              <img style="height:80px; width:80px; object-fit: cover;"  src="${result.data().정보.이미지}" class="img-thumbnail img-fluid" alt="">
+              </a>
+              `);
+
+
+            })
+          })
+
+        });
+
+
+
       } else {
       }
     });
@@ -327,7 +352,7 @@
                   .get()
                   .then(async (result) => {
                     itemList2 = await result.data().찜목록;
-                    await itemList2.push(queryId);
+                    await itemList2.unshift(queryId);
                   })
                 // 변경사항업데이트
                 await db
@@ -345,7 +370,7 @@
 
                 //현재 상품의 정보의 찜한사람들에도 추가함
                 let peopleList = await result.data().찜한사람들;
-                await peopleList.push(user.uid);
+                await peopleList.unshift(user.uid);
                 //업데이트
                 await db
                   .collection("product")
@@ -433,12 +458,13 @@
           <div class=" d-flex flex-md-column col-12  col-md-1  p-0">
             
                 <p class="fw-bold  p-3 p-md-0" >찜한<br/>상품</p>
-                <img style="height:90px; object-fit: cover;"  src="./img/mimi.jpg" class="img-thumbnail" alt="...">
-                <img style="height:90px; object-fit: cover;"  src="./img/mimi.jpg" class="img-thumbnail" alt="...">
-                <img style="height:90px; object-fit: cover;"  src="./img/mimi.jpg" class="img-thumbnail" alt="...">
-                <img style="height:90px; object-fit: cover;"  src="./img/mimi.jpg" class="img-thumbnail" alt="...">
+                
+                <div  id="hereAppend1">
+                  
+                  </div>
+               
                       <!--더 보기 버튼 -->
-                      <button id="modalbtn" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      <button id="morebtn" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         more
                       </button>
           
@@ -447,20 +473,15 @@
                     <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">찜한 상품 (클릭 시 이동)</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          <h5 class="fw-bolder modal-title" id="exampleModalLabel">찜한 상품 (클릭 시 이동)</h5>
+                          <button id="recycle1" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                              <div class="modal-body">
                                 <div class="container-fluid">
-                                  <div class="row gy-4">
-                                   <img  style="object-fit: cover; cursor:pointer;"  src="./img/mimi.jpg" class="col-6 col-md-4"  alt="...">
-                                   <img style="object-fit: cover; cursor:pointer;"  src="./img/mimi.jpg" class="col-6 col-md-4"  alt="...">
-                                   <img style="object-fit: cover; cursor:pointer;"  src="./img/mimi.jpg" class="col-6 col-md-4"  alt="...">
-                                   <img style="object-fit: cover; cursor:pointer;"  src="./img/mimi.jpg" class="col-6 col-md-4"  alt="...">
-                                   <img style="object-fit: cover; cursor:pointer;"  src="./img/mimi.jpg" class="col-6 col-md-4"  alt="...">
-                                   <img style="object-fit: cover; cursor:pointer;"  src="./img/mimi.jpg" class="col-6 col-md-4"  alt="...">
-                                   <img style="object-fit: cover; cursor:pointer;"  src="./img/mimi.jpg" class="col-6 col-md-4"  alt="...">
+                                  <div id="hereAppend2" class="row gy-4">
+                                  
+                                
 
                                   
 
@@ -469,7 +490,7 @@
                               </div>
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                          <button id="recycle2" type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                          
                         </div>
                       </div>
@@ -483,12 +504,38 @@
         </div>`;
         $("#detailInfo").append(info);
 
+        $("#recycle1").on("click", () => {
+          window.location.href = `/detail.html?id=${queryId}`;
+        })
+        $("#recycle2").on("click", () => {
+          window.location.href = `/detail.html?id=${queryId}`;
+        })
+
+
         // 더보기버튼 눌렀을때
-        $("#modalbtn").on("click", () => {
+        $("#morebtn").on("click", () => {
           // 로그인여부검사
           firebase.auth().onAuthStateChanged((user) => {
             if (user) {
+              userUid = user.uid;
+              db.collection("user").doc(userUid).get().then(async (result) => {
+                let 찜목록 = await result.data().찜목록;
+                찜목록.forEach(async (eachItemQueryId) => {
+                  await db.collection("product").doc(eachItemQueryId).get().then(async (result) => {
 
+                    // append시키기
+                    $("#hereAppend2").append(
+                      `
+                    <a href="/detail.html?id=${eachItemQueryId}">
+                    <img  style="object-fit: cover; cursor:pointer;"  src="${result.data().정보.이미지}" class="col-6 col-md-4"  alt="...">
+                    </a>
+                    `);
+
+
+                  })
+                })
+
+              })
 
 
             } else {
@@ -503,7 +550,7 @@
         //하단부분
         db.collection("product")
           .where("정보.업로더고유아이디", "==", itemUid)
-          // .orderBy("정보.날짜", "desc")
+          .orderBy("정보.날짜", "desc")
           .get()
           .then((list) => {
             list.forEach((result) => {

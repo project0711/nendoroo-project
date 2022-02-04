@@ -326,22 +326,32 @@
       });
     });
 
-    let provider = new firebase.auth.GoogleAuthProvider();
 
 
 
-    // 구글로그인 함수
-    function initApp() {
 
-      firebase
-        .auth()
-        .getRedirectResult()
+
+    // 구글버튼 클릭시
+    $("#google").on("click", () => {
+
+      let provider = new firebase.auth.GoogleAuthProvider();
+
+
+
+      firebase.auth()
+        .signInWithPopup(provider)
         .then(async (result) => {
-
-
           // result.additionalUserInfo.isNewUser == true 이면, 신규가입자
           // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
           if (result.additionalUserInfo.isNewUser) {
+
+
+
+            // 유저정보 db에 저장
+            // 문서아이디가 유저고유아이디임
+            await db
+              .collection("user")
+              .doc(result.user.uid).set({ 찜목록: [] })
 
 
 
@@ -357,16 +367,10 @@
                 displayName: $("#nameinput").val(),
               });
 
-              // 유저정보 db에 저장
-              await db
-                .collection("user")
-                .doc(result.user.uid).set({ 찜목록: [] })
-              // 문서아이디가 유저고유아이디임
-
-
-
-              window.location.href = "/mypage.html";
+              window.location.href = "/index.html";
             });
+
+
             // 그냥 닫기 버튼 누르면,
             $("#closebtn").on("click", async () => {
               //계정탈퇴 코드
@@ -388,23 +392,14 @@
             //기존 가입자면 패스
             window.location.href = "/index.html";
           }
-        })
-        .catch((error) => { });
-    };
+        }).catch((error) => {
 
-    // 구글버튼 클릭시
-    $("#google").on("click", () => {
+        });
 
-      firebase.auth().signInWithRedirect(provider);
 
     });
 
-    //구글 로그인 리디렉션 로직 실행
-    window.onload = function () {
-      initApp();
 
-
-    };
 
     // 로그아웃
     $("#logout").on("click", () => {

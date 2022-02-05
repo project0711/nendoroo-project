@@ -260,12 +260,12 @@
           let 찜 = await result.data().찜목록;
           let 자른찜목록 = await 찜.slice(0, 4);
           자른찜목록.forEach(async (eachItemQueryId) => {
-            await db.collection("product").doc(eachItemQueryId).get().then(async (result) => {
+            await db.collection("product").doc(eachItemQueryId).get().then(async (r) => {
 
               // append시키기
               $("#hereAppend1").append(`
-              
-              <img onclick=window.open("/detail.html?id=${eachItemQueryId}","_self") style="height:130px; width:130px; object-fit: cover;"  src="${result.data().정보.이미지}" class="img-thumbnail img-fluid" alt="">
+              <img onclick=window.open("/detail.html?id=${eachItemQueryId}","_self") style="cursor:pointer; height:130px; width:130px; object-fit: cover;"
+                src="${r.data().정보.이미지}" class="img-thumbnail img-fluid" alt="...">
              
               `);
 

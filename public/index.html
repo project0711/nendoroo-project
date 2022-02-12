@@ -247,8 +247,7 @@
 
     const db = firebase.firestore();
 
-    //페이지 들어오자마자 검사한다. 로그인되어있다면, 로그아웃버튼 유지하는 로직
-
+    //페이지 접속시 로그인 여부 검사
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         //로그인 상태시
@@ -272,7 +271,7 @@
             window.scrollTo(0, scroll);
           }, 400);
 
-          //쿠키 지워서 마무리~
+          //쿠키 지우고 마무리
           Cookies.remove("scroll");
         } else {
           // 맨처음 접속한 페이지라면 저장되어있는게 없으니까 여기가 실행
@@ -336,31 +335,29 @@
 
       let provider = new firebase.auth.GoogleAuthProvider();
 
-
-
       firebase.auth()
         .signInWithPopup(provider)
         .then(async (result) => {
           // result.additionalUserInfo.isNewUser == true 이면, 신규가입자
           // result.additionalUserInfo.isNewUser == false 이면, 기존 유저
           if (result.additionalUserInfo.isNewUser) {
-
-
-
             // 유저정보 db에 저장
             // 문서아이디가 유저고유아이디임
+
             await db
               .collection("user")
               .doc(result.user.uid).set({ 찜목록: [] })
 
-
-
             // 신규유저라면, 모달창 닉네임 입력창 띄워짐
             $("#modalpopbtn").trigger("click");
 
-
             // 다 입력하고 완료 버튼 누르면,
             $("#okbtn").on("click", async () => {
+
+              //새로가입한 유저일 경우 해당 입력값이 user 컬렉션에 존재하는지 true 또는 false로 출력
+              //그리고나서 존재하면 즉, true이면 alert로 알리고,
+              // return 해서 함수를 더이상 진행하지않고 끊는다.
+
 
               // 이 닉네임이 마이페이지에 뜨게됨
               await result.user.updateProfile({

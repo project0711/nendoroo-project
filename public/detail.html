@@ -512,7 +512,7 @@
         })
 
 
-        // 더보기버튼 눌렀을때
+        //더보기버튼 눌렀을때
         $("#morebtn").on("click", () => {
           // 로그인여부검사
           firebase.auth().onAuthStateChanged((user) => {
@@ -525,24 +525,20 @@
 
                     // append시키기
                     $("#hereAppend2").append(
-                      `
-                   
-                    <img onclick=window.open("/detail.html?id=${eachItemQueryId}","_self")  style="object-fit: cover; cursor:pointer;"  src="${result.data().정보.이미지}" class="col-6 col-md-4"  alt="..."> 
-                 
-                   
+                      `                  
+                    <img onclick=window.open("/detail.html?id=${eachItemQueryId}","_self")  
+                    style="object-fit: cover; cursor:pointer;"  src="${result.data().정보.이미지}" 
+                    class="col-6 col-md-4"  alt="..."> 
+                                   
                     `);
-
-
                   })
                 })
 
               })
 
-
             } else {
               alert("로그인이 필요합니다");
               window.location.href = `/detail.html?id=${queryId}`;
-
             }
           });
 
